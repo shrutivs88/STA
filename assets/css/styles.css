@@ -1,0 +1,51 @@
+body {
+    background-color: beige;
+}
+
+.server-message {
+    color: red;
+    height: 25px;
+}
+
+.content-view {
+    min-height: 500px;
+    margin-top: 60px;
+}
+
+.form-group-mod p {
+    height: 20px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    text-align: center;
+    color: red;
+}
+
+.form-group-mod .form-btn {
+    width: 120px;
+    margin: 10px;
+}
+
+.footer {
+    margin-top: 20px;
+    background-color: #d9d9d9;
+    border-color: #e7e7e7;
+    height: 100px;
+    padding: 10px;
+}
+
+.footer-info {
+    font-weight: lighter;
+    font-style: oblique;
+}
+
+.footer-left {
+    text-align: left;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.error-img {
+    display: inline-block;
+}
