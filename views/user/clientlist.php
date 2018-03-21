@@ -133,16 +133,16 @@ function loadByLimit(){
                                 <th>Mobile</th>
                                 <th>Category</th>
                                 <th>Designation</th>
-                                <th> Address </th>
-                                <th> City </th>
-                                <th> State </th>
-                                <th> Country</th>
-                                <th> LinkedIn Id </th>
-                                <th> Facebook Id </th>
-                                <th> Twitter Id </th>
-                                <th> Comapny Id </th>
-                                <th> Status </th>
-                                <th> Date And Time </th>
+                                <th>Address </th>
+                                <th>City </th>
+                                <th>State </th>
+                                <th>Country</th>
+                                <th>LinkedIn Id </th>
+                                <th>Facebook Id </th>
+                                <th>Twitter Id </th>
+                                <th>Comapny Id </th>
+                                <th>Status </th>
+                                <th>Date And Time </th>
                                 
                             </tr>  </thead>
                            <tbody  id="bde-list-table">

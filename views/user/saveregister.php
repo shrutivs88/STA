@@ -11,6 +11,7 @@ session_start();
 
   }
 
+  $userId = $_POST['userId'];
   $companyName = $_POST['companyName'];
   $companyWebsite =$_POST['companyWebsite'];
   $companyEmail=$_POST['companyEmail'];
@@ -48,6 +49,14 @@ $res= mysqli_query($conn,$table_unlock_sql);
 
 }
 
+$mang = "select user_manager_id from users where user_id = '$userId'";
+$mang_query= mysqli_query($conn,$mang);
+
+//if($row = $mang_query->fetch_assoc())
+if($row = mysqli_fetch_assoc($mang_query)){
+  $userManagerId  = $row["user_manager_id"];
+ 
+}
 //fetch insert id
 
           if(isset($_POST['clientDetails'])) {
@@ -70,20 +79,23 @@ $res= mysqli_query($conn,$table_unlock_sql);
               $clientLinkedInid = $client["clientLinkedInid"];
               $clientFacebookid = $client["clientFacebookid"];
               $clientTwitterid = $client["clientTwitterid"];
-             
+              
+              
 //client details validation
 
 
     //check if client email already exits with same company id
-    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime)
-    values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date')";
+    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime, user_manager_id)
+    values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId')";
     
+   
     //execute query for each loop
     $client_query= mysqli_query($conn,$client_sql);
 
+   
                                             }
 
-  $_SESSION["server-msg"] = "<p class='text-center' style:'color:red;'>Client Added Successfully!</p>";
+  $_SESSION["server-msg"] = "<p class='text-center' style='color:red;'>Client Added Successfully!</p>";
    
                             }
 

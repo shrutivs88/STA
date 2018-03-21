@@ -4,6 +4,7 @@ include '../../config.php';
 if(!isset($_SESSION["email"])) {
     header("Location:login.php");
 }
+$userId = $_SESSION["userId"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -350,6 +351,86 @@ if(!isset($_SESSION["email"])) {
             <?php endif; ?>
         </div> 
     </div>
+    <script>
+    function submitForm1() 
+        {
+           
+            validateCompanyName();
+            validatecompanyWebsite();
+            validatecompanyEmail();
+            validatecompanyPhone();
+            validatecompanyLinkedIn();
+            validatecompanyAddress();
+
+            
+            
+            
+            if((companyNameErrorFlag == false)&&(companyWebsiteErrorFlag == false)&&(companyEmailErrorFlag == false)&&(companyPhoneErrorFlag == false)&&(companyLinkedInErrorFlag == false)&&(companyAddressErrorFlag == false))
+            {
+            $("#companyName").prop('readonly',true);
+            $("#companyWebsite").prop('readonly',true);
+            $("#companyEmail").prop('readonly',true);
+            $("#companyPhone").prop('readonly',true);
+            $("#companyLinkedIn").prop('readonly',true);
+            $("#companyAddress").prop('readonly',true);
+
+            $("#clientFirstName").prop('readonly',true);
+            $("#clientLastName").prop('readonly',true);
+            $("#clientEmail").prop('readonly',true);
+            $("#clientMobile").prop('readonly',true);
+            $("#clientCategory").prop('readonly',true);
+            $("#clientDesignation").prop('readonly',true);
+            $("#clientAddress").prop('readonly',true);
+            $("#clientCity").prop('readonly',true);
+            $("#clientState").prop('readonly',true);
+            $("#clientCountry").prop('readonly',true);
+            $("#clientLinkedInid").prop('readonly',true);
+            $("#clientFacebookid").prop('readonly',true);
+            $("#clientTwitterid").prop('readonly',true);
+            //console.log($("#submitbtn"));
+            $("#submitbtn").attr('onclick','');
+
+            
+            
+
+
+                $.ajax({
+                            data: {
+                                userId: <?php echo $userId; ?>,
+                                companyName: "" + $("#companyName").val(),
+                                companyWebsite: "" + $("#companyWebsite").val(),
+                                companyEmail: "" + $("#companyEmail").val(),
+                                companyPhone : "" + $("#companyPhone").val(),
+                                companyLinkedIn: "" + $("#companyLinkedIn").val(),
+                                companyAddress: "" + $("#companyAddress").val(),
+                                /*clientFirstName: $("#clientFirstName").val(),
+                                clientLastName: $("#clientLastName").val(),
+                                clientEmail: $("#clientEmail").val(),*/
+
+                                clientDetails: clients
+                                
+                                
+                                
+                            },
+                            url: 'saveregister.php',
+                            method: 'POST', 
+                           
+                            success: function(response) {
+                           // alert("successs");
+                                
+                              window.location.href="clientlist.php";
+                                
+                            }, 
+                            error: function(response) {
+                               // alert("error");
+                                window.location.reload();
+                            }
+                        });
+
+               }
+            
+        }
+    </script>
     <?php include 'footer.php';?>
     
 
