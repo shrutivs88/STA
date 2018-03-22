@@ -2,5 +2,5 @@
 /**
  * Constants
  */
-define("BASEURL", "http://localhost/salesteamapp/");
+define("BASEURL", "http://localhost/STA/");
 ?>

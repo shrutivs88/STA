@@ -85,7 +85,7 @@ if($row = mysqli_fetch_assoc($mang_query)){
 
 
     //check if client email already exits with same company id
-    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime, user_manager_id)
+    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id)
     values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId')";
     
    
