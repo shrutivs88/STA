@@ -17,6 +17,7 @@ if(!isset($_SESSION["email"])) {
     <script src="<?php echo BASEURL; ?>assets/js/jquery.min.js"></script>
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
    <script>
+       var responseData = "";
      var limit = 10
       var offset = 0;
       var isUpdateOffsetPristine = true;
@@ -25,8 +26,120 @@ if(!isset($_SESSION["email"])) {
     $("#ajaxButton").click(function() {
       
         loadByLimit();
-    });
+    }); 
+
+    
 });
+
+function loadCountriesJson() {
+    $.ajax({
+        type: "get",
+        url: "../../assets/json/countries.json",
+        success: function(response) {
+            var optionsBuilder = "<option value=''>Select Country</option>";
+                    for(var i=0; i<response.countries.length; i++) {
+                        optionsBuilder += "<option value='" + response.countries[i].id + "'>";
+                        optionsBuilder += response.countries[i].name;
+                        optionsBuilder += "</option>";
+                    }
+                    $("#clientCountry").html(optionsBuilder);
+        }
+    });
+}
+
+function loadStatesJson(){
+    $.ajax({
+        type: "get",
+        url: "../../assets/json/states.json",
+        success: function(response) {
+            console.log(response);
+            resturn;
+            var optionsBuilder = "<option value=''>Select states</option>";
+                    for(var i=0; i<response.states.length; i++) {
+                        optionsBuilder += "<option value='" + response.states[i].id + "'>";
+                        optionsBuilder += response.states[i].name;
+                        optionsBuilder += "</option>";
+                    }
+                    $("#clientState").html(optionsBuilder);
+        }
+    });
+}
+function setModalFields(data) {
+    $("#clientId").val(data.clientId);
+    $("#clientFirstName").val(data.clientFirstName);
+    $("#clientLastName").val(data.clientLastName);
+    $("#clientEmail").val(data.clientEmail);
+    $("#clientMobile").val(data.clientMobile);
+    $("#clientCategory").val(data.clientCategory);
+    $("#clientDesignation").val(data.clientDesignation);
+    $("#clientAddress").val(data.clientAddress);
+    $("#clientCity").val(data.clientCity);
+    $("#clientState").val(data.clientState);
+    $("#clientCountry").val(data.clientCountry);
+    $("#clientLinkedInId").val(data.clientLinkedInId);
+    $("#clientFacebookId").val(data.clientFacebookId);
+    $("#clientTwitterId").val(data.clientTwitterId);
+    $("#clientCompanyId").val(data.clientCompanyId);
+    $("#clientDateTime").val(data.clientDateTime);
+}
+
+function showEditClient(clientId) {
+    $("#myModal").modal();
+    loadStatesJson();
+    loadCountriesJson();
+    data = "";
+    $.each(responseData, function( key, value ) {
+        if(value.clientId == clientId) {
+            data = value;
+            setModalFields(data);
+            return;
+        }
+    });
+    
+}
+
+function updateClient(clientId) {
+    $("#myModal").modal('toggle');
+    $.ajax({
+        type: "post",
+        url: "editclientcontact.php",
+        data: {
+            clientId: $("#clientId").val(),
+            clientFirstName: $("#clientFirstName").val(),
+            clientLastName: $("#clientLastName").val(),
+            clientEmail: $("#clientEmail").val(),
+            clientMobile: $("#clientMobile").val(),
+            clientCategory: $("#clientCategory").val(),
+            clientDesignation: $("#clientDesignation").val(),
+            clientAddress: $("#clientAddress").val(),
+            clientCity: $("#clientCity").val(),
+            clientState: $("#clientState").val(),
+            clientCountry: $("#clientCountry").val(),
+            clientLinkedInId: $("#clientLinkedInId").val(),
+            clientFacebookId: $("#clientFacebookId").val(),
+            clientTwitterId: $("#clientTwitterId").val(),
+            clientCompanyId: $("#clientCompanyId").val()
+            //clientDateTime: $("#clientDateTime").val()
+        
+        },
+        success: function(response) {
+            window.location.reload();
+        }
+    });
+}
+
+function deleteClient(clientId) {
+    $.ajax({
+        type: "post",
+        url: "deleteclientcontact.php",
+        data: {
+            clientId: clientId
+        },
+        success: function(response) {
+            window.location.reload();
+        }
+    });
+}
 
 function loadByLimit(){
     $.ajax({
@@ -37,6 +150,7 @@ function loadByLimit(){
             offsetVal: offset,
                  },
               success: function(data) {
+                responseData = data;
                    //alert(data);
               //  console.log(data);
                 //  $v = json_decode(data);
@@ -78,6 +192,7 @@ function loadByLimit(){
                         bdeListBuilder += "<td>" + data[i].clientCompanyId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
+                        bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-danger action-btn' onclick='deleteClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-trash'></span></button></td>";
                         bdeListBuilder += "</tr>";
                         $("#bde-list-table").append(bdeListBuilder);
                     }
@@ -87,6 +202,8 @@ function loadByLimit(){
                     
               }
         }); 
+
+        
 }
    </script>
 </head>
@@ -124,7 +241,7 @@ function loadByLimit(){
                              <div  id="bde-list" class="col-md-12">
                                 <div style="overflow-x:auto;">
                        <table class="table table-bordered text-center">
-                       <thead>
+                       <thead class="sta-app-horizontal-table-thead">
                             <tr>
                                  <th>ID </th>
                                 <th>First Name </th>
@@ -143,6 +260,8 @@ function loadByLimit(){
                                 <th>Comapny Id </th>
                                 <th>Status </th>
                                 <th>Date And Time </th>
+                                <th> Actions </th>
+
                                 
                             </tr>  </thead>
                            <tbody  id="bde-list-table">
@@ -169,7 +288,198 @@ function loadByLimit(){
     
 </body>
 </html>
+<p  data-toggle="modal" data-target="#myModal"></p>
 
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update Client Details</h4>
+      </div>
+      <div class="modal-body">
+           
+      <!-- modal body starts here -->
+      <!-- input fields starts here -->
+                        <input type="hidden" name="clientId" id="clientId">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label>First Name: </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                <input id="clientFirstName" name="clientFirstName" type="text" class="form-control" placeholder="Enter Your First Name">
+                                                                       
+                                                </div>
+                                            </div>
+                                        </div><!-- row end -->
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label>Last Name: </label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                    <input id="clientLastName" name="clientLastName" type="text" class="form-control" placeholder="Enter Your Last Name">
+                                                                             
+                                                    </div>
+                                                </div>
+                                        </div><!-- row end -->
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label>Email id: </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input id="clientEmail" name="clientEmail" type="text" class="form-control" placeholder="Enter Your email-id"> 
+                                                   
+                                                </div>
+                                            </div>
+                                        </div><!-- row end -->
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Mobile No.: </label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input id="clientMobile" name="clientMobile" type="text" class="form-control" placeholder="Enter Your contact number">
+                                               
+                                            </div>
+                                        </div>
+                                    </div><!-- row end -->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>Category: </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  id="clientCategory" name="clientCategory"   class="form-control">
+                       
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>Designation: </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  id="clientDesignation" name="clientDesignation"  class="form-control">
+                                               
+                                    
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                                <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Address: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" placeholder="Enter your address here" name="clientAddress" id="clientAddress"></textarea>
+                                        <i style="color:red" id="clientAddressError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>City: </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="clientCity" name="clientCity"  class="form-control" >
+                                                <option value="">Choose City</option>
+                                                <option value="bangalore">Bangalore</option>
+                                                <option value="pune">Pune</option>
+                                                <option value="chennai">Chennai</option>
+                                            </select>
+                                            <i style="color:red" id="clientCityError"></i>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>State: </label>
+                                        </div>
+                                    <div class="col-sm-8">
+                                        <select  id="clientState" name="clientState"  class="form-control">
+                                            <option value="">Select State</option>
+                                        </select>
+                                        <i style="color:red" id="clientStateError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Country: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select id="clientCountry" name="clientCountry"  class="form-control">
+                                        <option value="">Select Country</option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                           
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>LinkedIn Id: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input  id="clientLinkedInId"  name="clientLinkedInId" type="text"  class="form-control" placeholder="Please Provide Linkedin id">
+                                      
+                                </div>
+                            </div>
+                        </div><!-- row end -->            
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Facebook Id: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="clientFacebookId" name="clientFacebookId" type="text" class="form-control" placeholder="Please Provide facebook id">
+                                   
+                                </div>
+                            </div>
+                        </div><!-- row end -->    
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Twitter Id: </label>
+                                </div>
+                                    <div class="col-sm-8">
+                                        <input id="clientTwitterId" name="clientTwitterId" type="text"  class="form-control" placeholder="Please Provide twitter id">
+                   
+                                    </div>
+                            </div>
+                        </div><!-- row end -->
+
+                    <div class="form-group">
+                        <div class="row text-center">
+                            <input type="button" value="Update"  class="btn btn-success" onclick="updateClient()">
+                            <input  type="reset" value="Reset"  class="btn btn-danger">  
+                        </div>
+                    </div><!-- row end -->
+      <!-- input fields ends here -->
+      <!-- modal body ends here -->
+          
+      </div>
+      
+    </div>
+
+  </div>
+</div>
 
 
 
