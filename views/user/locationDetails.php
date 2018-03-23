@@ -32,11 +32,15 @@ if($locationType == "state-all-by-country-id") {
 }
 
 if($locationType == "city-all-by-state-id") {
+    $listOfCityByStateId = array(); 
     $stateId = $_POST["stateId"];
-    $city_sql = "select * from cities where city_id='$stateId'";
-    $res_city = mysqli_query($conn,$city_sql);
+    $city_sql = "select * from cities where state_id='$stateId'";
+    $res = mysqli_query($conn,$city_sql);
+    while($row = mysqli_fetch_assoc($res)){
+        array_push($listOfCityByStateId, $row);
+   }
     header('Content-Type: application/json');
-    echo json_encode($res_city);
+    echo json_encode($listOfCityByStateId);
     exit();
 }
 ?>

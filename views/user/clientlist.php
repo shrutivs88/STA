@@ -44,7 +44,6 @@ if(!isset($_SESSION["email"])) {
             loadCitiesByStateIdJson($("#clientState").val());
         });
 
-
         
     });
     function loadCountriesJson() {
@@ -512,7 +511,7 @@ function loadByLimit(){
                     <div class="form-group">
                         <div class="row text-center">
                             <input type="button" value="Update"  class="btn btn-success" onclick="updateClient()">
-                            <input  type="reset" value="Reset"  class="btn btn-danger">  
+                            
                         </div>
                     </div><!-- row end -->
       <!-- input fields ends here -->
