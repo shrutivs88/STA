@@ -17,53 +17,99 @@ if(!isset($_SESSION["email"])) {
     <script src="<?php echo BASEURL; ?>assets/js/jquery.min.js"></script>
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
    <script>
-       var responseData = "";
-     var limit = 10
-      var offset = 0;
-      var isUpdateOffsetPristine = true;
-  $(document).ready(function() {
-    loadByLimit();
-    $("#ajaxButton").click(function() {
-      
+    var responseData = "";
+    var limit = 10
+    var offset = 0;
+    var isUpdateOffsetPristine = true;
+
+    $(document).ready(function() {
         loadByLimit();
-    }); 
+        $("#ajaxButton").click(function() {
+            loadByLimit();
+        });
 
-    
-});
+        $("#clientCountry").change(function() {
+            var countryId = $("#clientCountry").val();
+            loadStatesByCountryIdJson(countryId);
+            //loadCitiesByStateIdJson($("#clientState").val());
+            //loadStatesByCountryIdJson($("#clientCountry").val());
+             
+            //filter states by country id and store it in states array
+            
+            //populate states array into state select element on dom
 
-function loadCountriesJson() {
+        });
+
+        $("#clientState").change(function() {
+            loadCitiesByStateIdJson($("#clientState").val());
+        });
+
+
+        
+    });
+    function loadCountriesJson() {
     $.ajax({
-        type: "get",
-        url: "../../assets/json/countries.json",
+        type: "post",
+        url: "locationDetails.php",
+        data: {
+            locationType:"country-all"
+        },
         success: function(response) {
-            var optionsBuilder = "<option value=''>Select Country</option>";
-                    for(var i=0; i<response.countries.length; i++) {
-                        optionsBuilder += "<option value='" + response.countries[i].id + "'>";
-                        optionsBuilder += response.countries[i].name;
-                        optionsBuilder += "</option>";
+           // console.log(response.locationType);
+          //  return;
+            var optionsCountry = "<option value=''>Select Country</option>";
+                    for(var i=0; i<response.length; i++) {
+                        optionsCountry += "<option value='" + response[i].country_id + "'>";
+                        optionsCountry += response[i].country_name;
+                        optionsCountry += "</option>";
                     }
-                    $("#clientCountry").html(optionsBuilder);
+                    $("#clientCountry").html(optionsCountry);
         }
     });
 }
 
-function loadStatesJson(){
+function loadStatesByCountryIdJson(countryId){
     $.ajax({
-        type: "get",
-        url: "../../assets/json/states.json",
+        type: "post",
+        url: "locationDetails.php",
+        data: {
+            countryId: countryId,
+            locationType: "state-all-by-country-id"
+        },
         success: function(response) {
-            console.log(response);
-            resturn;
-            var optionsBuilder = "<option value=''>Select states</option>";
-                    for(var i=0; i<response.states.length; i++) {
-                        optionsBuilder += "<option value='" + response.states[i].id + "'>";
-                        optionsBuilder += response.states[i].name;
-                        optionsBuilder += "</option>";
+            var optionsStates = "<option value=''>Select States</option>";
+                    for(var j=0; j<response.length; j++) {
+                        optionsStates += "<option value='" + response[j].state_id + "'>";
+                        optionsStates += response[j].state_name;
+                        optionsStates += "</option>";
                     }
-                    $("#clientState").html(optionsBuilder);
+                    $("#clientState").html(optionsStates);
         }
     });
 }
+
+function loadCitiesByStateIdJson(stateId) {
+    $.ajax({
+        type: "post",
+        url: "locationDetails.php",
+        data: {
+            stateId: stateId,
+            locationType: "city-all-by-state-id"
+        },
+        success: function(response) {
+           // console.log(response.locationType);
+           // return;
+            var optionsCities = "<option value=''>Select Cities</option>";
+                    for(var i=0; i<response.length; i++) {
+                        optionsCities += "<option value='" + response[i].city_id + "'>";
+                        optionsCities += response[i].city_name;
+                        optionsCities += "</option>";
+                    }
+                    $("#clientCity").html(optionsCities);
+        }
+    });
+}
+
 function setModalFields(data) {
     $("#clientId").val(data.clientId);
     $("#clientFirstName").val(data.clientFirstName);
@@ -85,7 +131,6 @@ function setModalFields(data) {
 
 function showEditClient(clientId) {
     $("#myModal").modal();
-    loadStatesJson();
     loadCountriesJson();
     data = "";
     $.each(responseData, function( key, value ) {
@@ -183,16 +228,16 @@ function loadByLimit(){
                         bdeListBuilder += "<td>" + data[i].clientCategory + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientDesignation + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientAddress + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientCity + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientState + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientCountry + "</td>";
+                        bdeListBuilder += "<td>" + data[i].clientState + "</td>";
+                        bdeListBuilder += "<td>" + data[i].clientCity + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientLinkedInId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientFacebookId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientCompanyId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
-                        bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-danger action-btn' onclick='deleteClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-trash'></span></button></td>";
+                        bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button></td>'";
                         bdeListBuilder += "</tr>";
                         $("#bde-list-table").append(bdeListBuilder);
                     }
@@ -251,9 +296,9 @@ function loadByLimit(){
                                 <th>Category</th>
                                 <th>Designation</th>
                                 <th>Address </th>
-                                <th>City </th>
-                                <th>State </th>
                                 <th>Country</th>
+                                <th>State </th>
+                                <th>City </th>
                                 <th>LinkedIn Id </th>
                                 <th>Facebook Id </th>
                                 <th>Twitter Id </th>
@@ -386,36 +431,7 @@ function loadByLimit(){
                                 </div>
                             </div><!-- row end -->
 
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <label>City: </label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <select id="clientCity" name="clientCity"  class="form-control" >
-                                                <option value="">Choose City</option>
-                                                <option value="bangalore">Bangalore</option>
-                                                <option value="pune">Pune</option>
-                                                <option value="chennai">Chennai</option>
-                                            </select>
-                                            <i style="color:red" id="clientCityError"></i>
-                                        </div>
-                                    </div>
-                                </div><!-- row end -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <label>State: </label>
-                                        </div>
-                                    <div class="col-sm-8">
-                                        <select  id="clientState" name="clientState"  class="form-control">
-                                            <option value="">Select State</option>
-                                        </select>
-                                        <i style="color:red" id="clientStateError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-                            <div class="form-group">
+                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label>Country: </label>
@@ -428,6 +444,34 @@ function loadByLimit(){
                                     </div>
                                 </div>
                             </div><!-- row end -->
+                            <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>State: </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="clientState" name="clientState"  class="form-control">
+                                                <option value="">Select States</option>
+                                            </select>
+                                            <i style="color:red" id="clientStateError"></i>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                           
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>City: </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                        <select id="clientCity" name="clientCity"  class="form-control">
+                                                <option value="">Select City</option>
+                                            </select>
+                                            <i style="color:red" id="clientCityError"></i>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->
+                                
                            
                         <div class="form-group">
                             <div class="row">

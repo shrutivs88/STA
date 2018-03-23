@@ -73,5 +73,59 @@ session_start();
             header("Location:csv.php"); 
             exit(0);
         }
+       
         
+
+        if(isset($_POST["Export"])){
+                
+            header('Content-Type: text/csv; charset=utf-8');  
+            header('Content-Disposition: attachment; filename=data.csv');  
+            $output = fopen("php://output", "w");  
+            fputcsv($output, array('ID', 'First Name', 'Last Name', 'Email', 'Joining Date'));  
+            $query = "SELECT * from client_details";  
+            $result = mysqli_query($con, $query);  
+            while($row = mysqli_fetch_assoc($result))  
+            {  
+                 fputcsv($output, $row);  
+            }  
+            fclose($output);  
+       }  
+
+
+     
+       
+
+        function get_all_records(){
+           
+            $Sql = "SELECT * FROM client_details";
+            $result = mysqli_query($conn, $Sql);  
+         
+         
+            if (mysqli_num_rows($result) > 0) {
+            /* echo "<div class='table-responsive'><table id='myTable' class='table table-striped table-bordered'>
+                     <thead><tr><th> Id</th>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Email</th>
+                                  <th>Registration Date</th>
+                                </tr></thead><tbody>";
+         */
+         
+             while($row = mysqli_fetch_assoc($result)) {
+         
+                 echo "<tr><td>" . $row['id']."</td>
+                           <td>" . $row['firstname']."</td>
+                           <td>" . $row['lastname']."</td>
+                           <td>" . $row['email']."</td>
+                           <td>" . $row['reg_date']."</td></tr>";        
+             }
+            
+             echo "</tbody></table></div>";
+             
+        } else {
+             echo "you have no records";
+        }
+        }    
+
+
  ?>

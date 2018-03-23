@@ -201,14 +201,7 @@ $userId = $_SESSION["userId"];
                                             <label>Category: </label>
                                         </div>
                                         <div class="col-sm-8">
-                                            <select  id="clientCategory" name="clientCategory"   class="form-control"  onfocusout="validateClientCategoty()">
-                                                <option value="">Choose Category</option>
-                                                <option value="a">A</option>
-                                                <option value="b">B</option>
-                                                <option value="c">C</option>
-                                                <option value="d">D</option>
-                                                <option value="others">Others</option>
-                                            </select>
+                                            <input  id="clientCategory" name="clientCategory"   class="form-control"  onfocusout="validateClientCategoty()">
                                                 <i style="color:red" id="clientCategoryError"></i>
                                         </div>
                                     </div>
@@ -219,13 +212,8 @@ $userId = $_SESSION["userId"];
                                             <label>Designation: </label>
                                         </div>
                                         <div class="col-sm-8">
-                                            <select  id="clientDesignation" name="clientDesignation"  class="form-control" onfocusout="validateClientDesignation()">
-                                                <option value="">Choose Designation</option>
-                                                <option value="x">X</option>
-                                                <option value="y">Y</option>
-                                                <option value="z">Z</option>
-                                                <option value="others">Others</option>
-                                            </select>
+                                            <input  id="clientDesignation" name="clientDesignation"  class="form-control" onfocusout="validateClientDesignation()">
+                                                
                                             <i style="color:red" id="clientDesignationError"></i>
                                         </div>
                                     </div>

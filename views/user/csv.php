@@ -47,6 +47,7 @@ if(!isset($_SESSION["email"])) {
                         
                     ?>
 
+<a href='' download=''>Download Template</a>
                <form action="savecsvfile.php" method="POST" enctype="multipart/form-data">     
                        <div class="row">
                             <div class="col-sm-4"></div>
@@ -58,16 +59,30 @@ if(!isset($_SESSION["email"])) {
                                     <div class="form-group">
                                     <button type="submit" class="btn btn-primary" id="import" name="import"> Upload File </div>
                                     </div>
-                                   
+                                    <div class="form-group">
+                                         <div class="col-md-4 col-md-offset-4">
+                                             
+                                         </div>
+                                    </div> 
                                 </div>    
                             </div>
                             <div class="col-sm-4"></div>
+                            <?php
+               get_all_records();
+                         ?>
                     </form>
                        </div>
+                       
                 </div>
             <?php endif; ?>
         </div> 
     </div>
     <?php include 'footer.php';?>
-</body>s
+    <script>
+        function downloadTemplate(){
+
+
+        }
+    </script>
+</body>
 </html>
