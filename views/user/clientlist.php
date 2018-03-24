@@ -54,12 +54,12 @@ if(!isset($_SESSION["email"])) {
             locationType:"country-all"
         },
         success: function(response) {
-           // console.log(response.locationType);
-          //  return;
+        //   console.log(response);
+         //  return;
             var optionsCountry = "<option value=''>Select Country</option>";
-                    for(var i=0; i<response.length; i++) {
-                        optionsCountry += "<option value='" + response[i].country_id + "'>";
-                        optionsCountry += response[i].country_name;
+                    for(var i=0; i<response.data.length; i++) {
+                        optionsCountry += "<option value='" + response.data[i].country_id + "'>";
+                        optionsCountry += response.data[i].country_name;
                         optionsCountry += "</option>";
                     }
                     $("#clientCountry").html(optionsCountry);
@@ -118,19 +118,17 @@ function setModalFields(data) {
     $("#clientCategory").val(data.clientCategory);
     $("#clientDesignation").val(data.clientDesignation);
     $("#clientAddress").val(data.clientAddress);
-    $("#clientCity").val(data.clientCity);
-    $("#clientState").val(data.clientState);
-    $("#clientCountry").val(data.clientCountry);
     $("#clientLinkedInId").val(data.clientLinkedInId);
     $("#clientFacebookId").val(data.clientFacebookId);
     $("#clientTwitterId").val(data.clientTwitterId);
     $("#clientCompanyId").val(data.clientCompanyId);
     $("#clientDateTime").val(data.clientDateTime);
+    setLocationForEditContactModal(data);
 }
 
 function showEditClient(clientId) {
     $("#myModal").modal();
-    loadCountriesJson();
+    //loadCountriesJson();
     data = "";
     $.each(responseData, function( key, value ) {
         if(value.clientId == clientId) {
@@ -140,6 +138,44 @@ function showEditClient(clientId) {
         }
     });
     
+}
+function setLocationForEditContactModal(data){
+    var locationType = ["country-all","state-all","city-all"];
+     $.each(locationType, function(index, value){
+            $.ajax({
+                 type: "post",
+                 url : "locationDetails.php",
+                 data:{
+                    locationType: value
+                 },
+                 success:function(locationResponse){
+                    if(locationResponse.locationType == "country-all") {
+                        setCountryToDOM(data);
+                    }
+                    if(locationResponse.locationType == "state-all") {
+                        setStateToDOM(data);
+                    }
+                    if(locationResponse.locationType == "city-all") {
+                        setCityToDOM(data);
+                    }
+
+                 }       
+            });
+    })
+}
+
+function setCountryToDOM(data) {
+    $("#clientCountry").val(data.clientCountry);
+    loadStatesByCountryIdJson(data.clientCountry);
+}
+
+function setStateToDOM() {
+    $("#clientState").val(data.clientState);
+    loadCitiesByStateIdJson(data.clientState);
+}
+
+function setCityToDOM() {
+    $("#clientCity").val(data.clientCity);
 }
 
 function updateClient(clientId) {

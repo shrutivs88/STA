@@ -230,38 +230,8 @@ $userId = $_SESSION["userId"];
                                 </div>
                             </div><!-- row end -->
 
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <label>City: </label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <select id="clientCity" name="clientCity"  class="form-control" onfocusout="validateClientCity()">
-                                                <option value="">Choose City</option>
-                                                <option value="bangalore">Bangalore</option>
-                                                <option value="pune">Pune</option>
-                                                <option value="chennai">Chennai</option>
-                                            </select>
-                                            <i style="color:red" id="clientCityError"></i>
-                                        </div>
-                                    </div>
-                                </div><!-- row end -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <label>State: </label>
-                                        </div>
-                                    <div class="col-sm-8">
-                                        <select  id="clientState" name="clientState"  class="form-control" onfocusout="validateClientState()">
-                                            <option value="">Choose State</option>
-                                            <option value="karanataka">Karnataka</option>
-                                            <option value="maharashtra">Maharashtra</option>
-                                            <option value="tamilnadu">Tamilnadu</option>
-                                        </select>
-                                        <i style="color:red" id="clientStateError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
+                               
+                                
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-4">
@@ -278,7 +248,41 @@ $userId = $_SESSION["userId"];
                                     </div>
                                 </div>
                             </div><!-- row end -->
+
+                            <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>State: </label>
+                                        </div>
+                                    <div class="col-sm-8">
+                                        <select  id="clientState" name="clientState"  class="form-control" onfocusout="validateClientState()">
+                                            <option value="">Choose State</option>
+                                            <option value="karanataka">Karnataka</option>
+                                            <option value="maharashtra">Maharashtra</option>
+                                            <option value="tamilnadu">Tamilnadu</option>
+                                        </select>
+                                        <i style="color:red" id="clientStateError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
                            
+                            <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>City: </label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="clientCity" name="clientCity"  class="form-control" onfocusout="validateClientCity()">
+                                                <option value="">Choose City</option>
+                                                <option value="bangalore">Bangalore</option>
+                                                <option value="pune">Pune</option>
+                                                <option value="chennai">Chennai</option>
+                                            </select>
+                                            <i style="color:red" id="clientCityError"></i>
+                                        </div>
+                                    </div>
+                                </div><!-- row end -->  
+
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-4">
