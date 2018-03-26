@@ -178,7 +178,7 @@ $userId = $_SESSION["userId"];
                                                     <label>Email id: </label>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <input id="clientEmail" name="clientEmail" type="text" class="form-control" placeholder="Enter Your email-id "    form="form1" onfocusout="validateClientEmail()"> 
+                                                    <input id="clientEmail" name="clientEmail[]" type="text" class="form-control" placeholder="Enter Your email-id "    form="form1" onfocusout="validateClientEmail()"> 
                                                     <i style="color:red" id="clientEmailError"></i>
                                                 </div>
                                             </div>

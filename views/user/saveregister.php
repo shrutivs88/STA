@@ -3,7 +3,8 @@ session_start();
   include '../../utility/DatabaseManager.php';
   $data = new DatabaseManager();
   $conn = $data->getconnection();
-  
+  $userId = $_SESSION["userId"];
+
   if(function_exists('date_default_timezone_set')) 
   {
   date_default_timezone_set("Asia/Kolkata");
@@ -11,7 +12,7 @@ session_start();
 
   }
 
-  $userId = $_POST['userId'];
+  //$userId = $_POST['userId'];
   $companyName = $_POST['companyName'];
   $companyWebsite =$_POST['companyWebsite'];
   $companyEmail=$_POST['companyEmail'];
@@ -49,12 +50,15 @@ $res= mysqli_query($conn,$table_unlock_sql);
 
 }
 
-$mang = "select user_manager_id from users where user_id = '$userId'";
+$mang = "select * from users where user_id ='$userId'";
+
+//$mang = "select user_manager_id from users where user_id = '$userId'";
 $mang_query= mysqli_query($conn,$mang);
 
 //if($row = $mang_query->fetch_assoc())
-if($row = mysqli_fetch_assoc($mang_query)){
-  $userManagerId  = $row["user_manager_id"];
+if($row = mysqli_fetch_object($mang_query)){
+  $userManagerId  = $row->user_manager_id;
+  $userEmpId  = $row->user_emp_id;
  
 }
 //fetch insert id
@@ -68,7 +72,7 @@ if($row = mysqli_fetch_assoc($mang_query)){
               //get all values
               $clientFirstName = $client["clientFirstName"];
               $clientLastName = $client["clientLastName"];
-              $clientEmail = $client["clientEmail"];
+              $clientEmail = implode(',',$client["clientEmail"]);
               $clientMobile = $client["clientMobile"];
               $clientCategory = $client["clientCategory"];
               $clientDesignation = $client["clientDesignation"];
@@ -85,8 +89,8 @@ if($row = mysqli_fetch_assoc($mang_query)){
 
 
     //check if client email already exits with same company id
-    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id)
-    values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId')";
+    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)
+    values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId','$userEmpId')";
     
    
     //execute query for each loop

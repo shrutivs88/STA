@@ -29,10 +29,10 @@ if(!isset($_SESSION["email"])) {
         });
 
         $("#clientCountry").change(function() {
-            var countryId = $("#clientCountry").val();
+           var countryId = $("#clientCountry").val();
             loadStatesByCountryIdJson(countryId);
-            //loadCitiesByStateIdJson($("#clientState").val());
-            //loadStatesByCountryIdJson($("#clientCountry").val());
+           // loadCitiesByStateIdJson($("#clientState").val());
+            // loadStatesByCountryIdJson($("#clientCountry").val());
              
             //filter states by country id and store it in states array
             
@@ -41,12 +41,12 @@ if(!isset($_SESSION["email"])) {
         });
 
         $("#clientState").change(function() {
-            loadCitiesByStateIdJson($("#clientState").val());
-        });
+           loadCitiesByStateIdJson($("#clientState").val());
+    });
 
         
-    });
-    function loadCountriesJson() {
+   });
+ function loadCountriesJson() {
     $.ajax({
         type: "post",
         url: "locationDetails.php",
@@ -128,7 +128,7 @@ function setModalFields(data) {
 
 function showEditClient(clientId) {
     $("#myModal").modal();
-    //loadCountriesJson();
+    loadCountriesJson();
     data = "";
     $.each(responseData, function( key, value ) {
         if(value.clientId == clientId) {
@@ -149,15 +149,17 @@ function setLocationForEditContactModal(data){
                     locationType: value
                  },
                  success:function(locationResponse){
+                     console.log(locationResponse);
+                    // return;
                     if(locationResponse.locationType == "country-all") {
                         setCountryToDOM(data);
                     }
-                    if(locationResponse.locationType == "state-all") {
+                   if(locationResponse.locationType == "state-all") {
                         setStateToDOM(data);
                     }
                     if(locationResponse.locationType == "city-all") {
                         setCityToDOM(data);
-                    }
+                   }
 
                  }       
             });
@@ -221,6 +223,25 @@ function deleteClient(clientId) {
     });
 }
 
+function showClientCompany(companyId) {
+    //window.location.href="showCompany.php?companyId="+companyId;
+    $("#myModalCompany").modal('toggle');
+    $.ajax({
+            type: "post",
+            url:"showCompany.php",
+            data: {
+                companyId:companyId
+                
+            },
+            success: function(companyresult){
+                //console.log(companyresult);
+                //return;
+                $("#companyName").val(companyresult.companyName);
+
+            }
+    });
+}
+
 function loadByLimit(){
     $.ajax({
               type: "Post",
@@ -254,8 +275,8 @@ function loadByLimit(){
 
                         var bdeListBuilder = "";
                         bdeListBuilder += "<tr>";
-
-                        bdeListBuilder += "<td>" + data[i].clientId + "</td>";
+ 
+                      //  bdeListBuilder += "<td>" + data[i].clientId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientFirstName + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientLastName + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientEmail + "</td>";
@@ -269,10 +290,9 @@ function loadByLimit(){
                         bdeListBuilder += "<td>" + data[i].clientLinkedInId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientFacebookId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientCompanyId + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
                         bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
-                        bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button></td>'";
+                        bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-primary action-btn' onclick='showClientCompany(" + data[i].clientCompanyId + ")'><span class='glyphicon glyphicon-knight'></span></button></td>'";
                         bdeListBuilder += "</tr>";
                         $("#bde-list-table").append(bdeListBuilder);
                     }
@@ -285,6 +305,7 @@ function loadByLimit(){
 
         
 }
+
    </script>
 </head>
 <body>
@@ -323,7 +344,7 @@ function loadByLimit(){
                        <table class="table table-bordered text-center">
                        <thead class="sta-app-horizontal-table-thead">
                             <tr>
-                                 <th>ID </th>
+                                
                                 <th>First Name </th>
                                 <th>Last Name </th>
                                 <th>Email</th>
@@ -337,7 +358,6 @@ function loadByLimit(){
                                 <th>LinkedIn Id </th>
                                 <th>Facebook Id </th>
                                 <th>Twitter Id </th>
-                                <th>Comapny Id </th>
                                 <th>Status </th>
                                 <th>Date And Time </th>
                                 <th> Actions </th>
@@ -551,6 +571,99 @@ function loadByLimit(){
                         </div>
                     </div><!-- row end -->
       <!-- input fields ends here -->
+      <!-- modal body ends here -->
+          
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+<!--MODAL of COMPANY DETAILS -->
+<p  data-toggle="modal" data-target="#myModalCompany"></p>
+
+<div id="myModalCompany" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Client Company Details</h4>
+      </div>
+      <div class="modal-body">
+           
+      <!-- modal body starts here -->
+     
+      <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Company Name : </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="companyName" name="companyName" type="text" class="form-control" placeholder="Enter Company Name" >
+                                        <i style="color:red" id="companyNameError" ></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Company Website: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="companyWebsite" name="companyWebsite" type="text" class="form-control" placeholder="Enter Website URL" >
+                                        <i style="color:red" id="companyWebsiteError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Company Email id: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="companyEmail" name="companyEmail" class="form-control" type="text" placeholder="Enter Company email-id" >
+                                        <i style="color:red" id="companyEmailError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Company Phone: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="companyPhone" name="companyPhone" type="text" class="form-control" placeholder="Enter Company phone number" >
+                                        <i style="color:red" id="companyPhoneError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Company LinkedIN Id: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="companyLinkedIn" name="companyLinkedIn" type="text" class="form-control" placeholder="Company linked in id" >
+                                        <i style="color:red" id="companyLinkedInError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Company Address: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea  id="companyAddress" name="companyAddress" class="form-control" placeholder="Enter Comapny address here" ></textarea>
+                                        <i style="color:red" id="companyAddressError"></i>
+                                    </div>
+                                </div>
+                            </div><!-- row end -->
+                        
       <!-- modal body ends here -->
           
       </div>
