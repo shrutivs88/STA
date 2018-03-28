@@ -19,7 +19,7 @@ if($row = mysqli_fetch_object($mang_query)){
   $userEmpId  = $row->user_emp_id;
  
 }
-$sql = "SELECT * FROM client_details  where bde_user_id ='$userEmpId'";
+$sql = "SELECT * FROM client_details  where bde_user_id ='$userEmpId' LIMIT $limit OFFSET $offset";
 
 $result = mysqli_query($conn,$sql);
  //var_dump($result);

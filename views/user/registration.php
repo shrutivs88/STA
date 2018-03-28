@@ -128,7 +128,7 @@ $userId = $_SESSION["userId"];
            
         </form>   
                 <div class="col-sm-6 col-sm-offset-3">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="myBtn">
+                    <button type="button" class="btn btn-primary" onclick="addacontact()" data-toggle="modal" data-target="#exampleModal" id="myBtn">
             Add a Contact
             
             </button>
@@ -178,7 +178,7 @@ $userId = $_SESSION["userId"];
                                                     <label>Email id: </label>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <input id="clientEmail" name="clientEmail[]" type="text" class="form-control" placeholder="Enter Your email-id "    form="form1" onfocusout="validateClientEmail()"> 
+                                                    <input id="clientEmail" name="clientEmail" type="text" class="form-control" placeholder="Enter Your email-id "    form="form1" onfocusout="validateClientEmail()"> 
                                                     <i style="color:red" id="clientEmailError"></i>
                                                 </div>
                                             </div>
@@ -240,9 +240,6 @@ $userId = $_SESSION["userId"];
                                     <div class="col-sm-8">
                                         <select id="clientCountry" name="clientCountry"  class="form-control" onfocusout="validateClientCountry()">
                                             <option value="">Choose Country</option>
-                                            <option value="india">India</option>
-                                            <option value="america">America</option>
-                                            <option value="europe">Europe</option>
                                         </select>
                                         <i style="color:red" id="clientCountryError"></i>
                                     </div>
@@ -257,9 +254,7 @@ $userId = $_SESSION["userId"];
                                     <div class="col-sm-8">
                                         <select  id="clientState" name="clientState"  class="form-control" onfocusout="validateClientState()">
                                             <option value="">Choose State</option>
-                                            <option value="karanataka">Karnataka</option>
-                                            <option value="maharashtra">Maharashtra</option>
-                                            <option value="tamilnadu">Tamilnadu</option>
+                                           
                                         </select>
                                         <i style="color:red" id="clientStateError"></i>
                                     </div>
@@ -274,9 +269,7 @@ $userId = $_SESSION["userId"];
                                         <div class="col-sm-8">
                                             <select id="clientCity" name="clientCity"  class="form-control" onfocusout="validateClientCity()">
                                                 <option value="">Choose City</option>
-                                                <option value="bangalore">Bangalore</option>
-                                                <option value="pune">Pune</option>
-                                                <option value="chennai">Chennai</option>
+                                               
                                             </select>
                                             <i style="color:red" id="clientCityError"></i>
                                         </div>
@@ -346,7 +339,6 @@ $userId = $_SESSION["userId"];
     <script>
     function submitForm1() 
         {
-           
             validateCompanyName();
             validatecompanyWebsite();
             validatecompanyEmail();
@@ -354,9 +346,6 @@ $userId = $_SESSION["userId"];
             validatecompanyLinkedIn();
             validatecompanyAddress();
 
-            
-            
-            
             if((companyNameErrorFlag == false)&&(companyWebsiteErrorFlag == false)&&(companyEmailErrorFlag == false)&&(companyPhoneErrorFlag == false)&&(companyLinkedInErrorFlag == false)&&(companyAddressErrorFlag == false))
             {
             $("#companyName").prop('readonly',true);
@@ -382,10 +371,6 @@ $userId = $_SESSION["userId"];
             //console.log($("#submitbtn"));
             $("#submitbtn").attr('onclick','');
 
-            
-            
-
-
                 $.ajax({
                             data: {
                                 userId: <?php echo $userId; ?>,
@@ -395,23 +380,15 @@ $userId = $_SESSION["userId"];
                                 companyPhone : "" + $("#companyPhone").val(),
                                 companyLinkedIn: "" + $("#companyLinkedIn").val(),
                                 companyAddress: "" + $("#companyAddress").val(),
-                                /*clientFirstName: $("#clientFirstName").val(),
-                                clientLastName: $("#clientLastName").val(),
-                                clientEmail: $("#clientEmail").val(),*/
-
+                                
                                 clientDetails: clients
-                                
-                                
-                                
+        
                             },
                             url: 'saveregister.php',
                             method: 'POST', 
-                           
                             success: function(response) {
                            // alert("successs");
-                                
                               window.location.href="clientlist.php";
-                                
                             }, 
                             error: function(response) {
                                // alert("error");
@@ -422,6 +399,8 @@ $userId = $_SESSION["userId"];
                }
             
         }
+
+
     </script>
     <?php include 'footer.php';?>
     

@@ -16,376 +16,425 @@ if(!isset($_SESSION["email"])) {
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo BASEURL; ?>assets/css/styles.css" />
     <script src="<?php echo BASEURL; ?>assets/js/jquery.min.js"></script>
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
-   <script>
+    
+    <script>
     var responseData = "";
     var limit = 10
     var offset = 0;
     var isUpdateOffsetPristine = true;
+    var countries = [];
+    var states = [];
+    var cities = [];
+
 
     $(document).ready(function() {
-        loadByLimit();
+        preInitilizeLocationChainingEffectBeginByInitCountry();
+
         $("#ajaxButton").click(function() {
             loadByLimit();
         });
 
         $("#clientCountry").change(function() {
-           var countryId = $("#clientCountry").val();
-            loadStatesByCountryIdJson(countryId);
-           // loadCitiesByStateIdJson($("#clientState").val());
-            // loadStatesByCountryIdJson($("#clientCountry").val());
-             
-            //filter states by country id and store it in states array
-            
-            //populate states array into state select element on dom
-
+            var countryId = $("#clientCountry").val();
+            $("#clientState").html("<option value=''>Select State</option>");
+            if($("#clientCountry").val() != "") {
+                loadStatesByCountryIdJson(countryId);
+            }
+            $("#clientCity").html("<option value=''>Select City</option>");
         });
 
         $("#clientState").change(function() {
-           loadCitiesByStateIdJson($("#clientState").val());
-    });
-
-        
-   });
- function loadCountriesJson() {
-    $.ajax({
-        type: "post",
-        url: "locationDetails.php",
-        data: {
-            locationType:"country-all"
-        },
-        success: function(response) {
-        //   console.log(response);
-         //  return;
-            var optionsCountry = "<option value=''>Select Country</option>";
-                    for(var i=0; i<response.data.length; i++) {
-                        optionsCountry += "<option value='" + response.data[i].country_id + "'>";
-                        optionsCountry += response.data[i].country_name;
-                        optionsCountry += "</option>";
-                    }
-                    $("#clientCountry").html(optionsCountry);
-        }
-    });
-}
-
-function loadStatesByCountryIdJson(countryId){
-    $.ajax({
-        type: "post",
-        url: "locationDetails.php",
-        data: {
-            countryId: countryId,
-            locationType: "state-all-by-country-id"
-        },
-        success: function(response) {
-            var optionsStates = "<option value=''>Select States</option>";
-                    for(var j=0; j<response.length; j++) {
-                        optionsStates += "<option value='" + response[j].state_id + "'>";
-                        optionsStates += response[j].state_name;
-                        optionsStates += "</option>";
-                    }
-                    $("#clientState").html(optionsStates);
-        }
-    });
-}
-
-function loadCitiesByStateIdJson(stateId) {
-    $.ajax({
-        type: "post",
-        url: "locationDetails.php",
-        data: {
-            stateId: stateId,
-            locationType: "city-all-by-state-id"
-        },
-        success: function(response) {
-           // console.log(response.locationType);
-           // return;
-            var optionsCities = "<option value=''>Select Cities</option>";
-                    for(var i=0; i<response.length; i++) {
-                        optionsCities += "<option value='" + response[i].city_id + "'>";
-                        optionsCities += response[i].city_name;
-                        optionsCities += "</option>";
-                    }
-                    $("#clientCity").html(optionsCities);
-        }
-    });
-}
-
-function setModalFields(data) {
-    $("#clientId").val(data.clientId);
-    $("#clientFirstName").val(data.clientFirstName);
-    $("#clientLastName").val(data.clientLastName);
-    $("#clientEmail").val(data.clientEmail);
-    $("#clientMobile").val(data.clientMobile);
-    $("#clientCategory").val(data.clientCategory);
-    $("#clientDesignation").val(data.clientDesignation);
-    $("#clientAddress").val(data.clientAddress);
-    $("#clientLinkedInId").val(data.clientLinkedInId);
-    $("#clientFacebookId").val(data.clientFacebookId);
-    $("#clientTwitterId").val(data.clientTwitterId);
-    $("#clientCompanyId").val(data.clientCompanyId);
-    $("#clientDateTime").val(data.clientDateTime);
-    setLocationForEditContactModal(data);
-}
-
-function showEditClient(clientId) {
-    $("#myModal").modal();
-    loadCountriesJson();
-    data = "";
-    $.each(responseData, function( key, value ) {
-        if(value.clientId == clientId) {
-            data = value;
-            setModalFields(data);
-            return;
-        }
-    });
-    
-}
-function setLocationForEditContactModal(data){
-    var locationType = ["country-all","state-all","city-all"];
-     $.each(locationType, function(index, value){
-            $.ajax({
-                 type: "post",
-                 url : "locationDetails.php",
-                 data:{
-                    locationType: value
-                 },
-                 success:function(locationResponse){
-                     console.log(locationResponse);
-                    // return;
-                    if(locationResponse.locationType == "country-all") {
-                        setCountryToDOM(data);
-                    }
-                   if(locationResponse.locationType == "state-all") {
-                        setStateToDOM(data);
-                    }
-                    if(locationResponse.locationType == "city-all") {
-                        setCityToDOM(data);
-                   }
-
-                 }       
-            });
-    })
-}
-
-function setCountryToDOM(data) {
-    $("#clientCountry").val(data.clientCountry);
-    loadStatesByCountryIdJson(data.clientCountry);
-}
-
-function setStateToDOM() {
-    $("#clientState").val(data.clientState);
-    loadCitiesByStateIdJson(data.clientState);
-}
-
-function setCityToDOM() {
-    $("#clientCity").val(data.clientCity);
-}
-
-function updateClient(clientId) {
-    $("#myModal").modal('toggle');
-    $.ajax({
-        type: "post",
-        url: "editclientcontact.php",
-        data: {
-            clientId: $("#clientId").val(),
-            clientFirstName: $("#clientFirstName").val(),
-            clientLastName: $("#clientLastName").val(),
-            clientEmail: $("#clientEmail").val(),
-            clientMobile: $("#clientMobile").val(),
-            clientCategory: $("#clientCategory").val(),
-            clientDesignation: $("#clientDesignation").val(),
-            clientAddress: $("#clientAddress").val(),
-            clientCity: $("#clientCity").val(),
-            clientState: $("#clientState").val(),
-            clientCountry: $("#clientCountry").val(),
-            clientLinkedInId: $("#clientLinkedInId").val(),
-            clientFacebookId: $("#clientFacebookId").val(),
-            clientTwitterId: $("#clientTwitterId").val(),
-            clientCompanyId: $("#clientCompanyId").val()
-            //clientDateTime: $("#clientDateTime").val()
-        
-        },
-        success: function(response) {
-            window.location.reload();
-        }
-    });
-}
-
-function deleteClient(clientId) {
-    $.ajax({
-        type: "post",
-        url: "deleteclientcontact.php",
-        data: {
-            clientId: clientId
-        },
-        success: function(response) {
-            window.location.reload();
-        }
-    });
-}
-
-function showClientCompany(companyId) {
-    //window.location.href="showCompany.php?companyId="+companyId;
-    $("#myModalCompany").modal('toggle');
-    $.ajax({
-            type: "post",
-            url:"showCompany.php",
-            data: {
-                companyId:companyId
-                
-            },
-            success: function(companyresult){
-                //console.log(companyresult);
-                //return;
-                $("#companyName").val(companyresult.companyName);
-
+            $("#clientCity").html("<option value=''>Select City</option>");
+            if($("#clientState").val() != "") {
+                loadCitiesByStateIdJson($("#clientState").val());
             }
+        });
+
     });
-}
+
+    function preInitilizeLocationChainingEffectBeginByInitCountry() {
+        /**Loading all countries */
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"country-all"
+            },
+            success: function(response) {
+                countries = response.data;
+                initStatesChainingEffect();
+            }
+        });
+    }
+
+    function initStatesChainingEffect() {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"state-all"
+            },
+            success: function(response) {
+                states = response.data;
+                initCitiesChainingEffect();
+            }
+        });
+    }
+
+    function initCitiesChainingEffect() {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"city-all"
+            },
+            success: function(response) {
+                cities = response.data;
+                loadByLimit();
+            }
+        });
+    }
+    /**
+    On change activates
+    */
+    function loadStatesByCountryIdJson(countryId){
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                countryId: countryId,
+                locationType: "state-all-by-country-id"
+            },
+            success: function(response) {
+                var optionsStates = "<option value=''>Select State</option>";
+                        for(var j=0; j<response.length; j++) {
+                            optionsStates += "<option value='" + response[j].state_id + "'>";
+                            optionsStates += response[j].state_name;
+                            optionsStates += "</option>";
+                        }
+                        $("#clientState").html(optionsStates);
+            }
+        });
+    }
+
+    /**
+    On change activates
+    */
+    function loadCitiesByStateIdJson(stateId) {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                stateId: stateId,
+                locationType: "city-all-by-state-id"
+            },
+            success: function(response) {
+            
+                var optionsCities = "<option value=''>Select City</option>";
+                        for(var i=0; i<response.length; i++) {
+                            optionsCities += "<option value='" + response[i].city_id + "'>";
+                            optionsCities += response[i].city_name;
+                            optionsCities += "</option>";
+                        }
+                        $("#clientCity").html(optionsCities);
+            }
+        });
+    }
+
+    function showEditClient(clientId) {
+        $("#myModal").modal();
+        data = "";
+        $.each(responseData, function( key, value ) {
+            if(value.clientId == clientId) {
+                data = value;
+                setModalFields(data);
+                return;
+            }
+        });
+    }
+
+    function setModalFields(data) {
+        $("#clientId").val(data.clientId);
+        $("#clientFirstName").val(data.clientFirstName);
+        $("#clientLastName").val(data.clientLastName);
+        $("#clientEmail").val(data.clientEmail);
+        $("#clientMobile").val(data.clientMobile);
+        $("#clientCategory").val(data.clientCategory);
+        $("#clientDesignation").val(data.clientDesignation);
+        $("#clientAddress").val(data.clientAddress);
+        $("#clientLinkedInId").val(data.clientLinkedInId);
+        $("#clientFacebookId").val(data.clientFacebookId);
+        $("#clientTwitterId").val(data.clientTwitterId);
+        $("#clientCompanyId").val(data.clientCompanyId);
+        $("#clientDateTime").val(data.clientDateTime);
+        loadCountriesJsonAndSetCountry(data);
+        
+    }
+
+    function loadCountriesJsonAndSetCountry(data) {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"country-all"
+            },
+            success: function(response) {
+                var optionsCountry = "<option value=''>Select Country</option>";
+                        for(var i=0; i<response.data.length; i++) {
+                            optionsCountry += "<option value='" + response.data[i].country_id + "'>";
+                            optionsCountry += response.data[i].country_name;
+                            optionsCountry += "</option>";
+                        }
+                        $("#clientCountry").html(optionsCountry);
+                        $("#clientCountry").val(data.clientCountry);
+                        loadStatesJsonAndSetState(data);
+            }
+        });
+    }
+
+    function loadStatesJsonAndSetState(data) {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                countryId: data.clientCountry,
+                locationType: "state-all-by-country-id"
+            },
+            success: function(response) {
+                var optionsStates = "<option value=''>Select State</option>";
+                        for(var j=0; j<response.length; j++) {
+                            optionsStates += "<option value='" + response[j].state_id + "'>";
+                            optionsStates += response[j].state_name;
+                            optionsStates += "</option>";
+                        }
+                        $("#clientState").html(optionsStates);
+                        $("#clientState").val(data.clientState);
+                        loadCitiesJsonAndSetCity(data);
+            }
+        });
+    }
+
+    function loadCitiesJsonAndSetCity(data) {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                stateId: data.clientState,
+                locationType: "city-all-by-state-id"
+            },
+            success: function(response) {
+                var optionsCities = "<option value=''>Select City</option>";
+                        for(var i=0; i<response.length; i++) {
+                            optionsCities += "<option value='" + response[i].city_id + "'>";
+                            optionsCities += response[i].city_name;
+                            optionsCities += "</option>";
+                        }
+                        $("#clientCity").html(optionsCities);
+                        $("#clientCity").val(data.clientCity);
+            }
+        });
+    }
+
+    /**
+    Backend call to save data */
+    function updateClient(clientId) {
+        $("#myModal").modal('toggle');
+        $.ajax({
+            type: "post",
+            url: "editclientcontact.php",
+            data: {
+                clientId: $("#clientId").val(),
+                clientFirstName: $("#clientFirstName").val(),
+                clientLastName: $("#clientLastName").val(),
+                clientEmail: $("#clientEmail").val(),
+                clientMobile: $("#clientMobile").val(),
+                clientCategory: $("#clientCategory").val(),
+                clientDesignation: $("#clientDesignation").val(),
+                clientAddress: $("#clientAddress").val(),
+                clientCity: $("#clientCity").val(),
+                clientState: $("#clientState").val(),
+                clientCountry: $("#clientCountry").val(),
+                clientLinkedInId: $("#clientLinkedInId").val(),
+                clientFacebookId: $("#clientFacebookId").val(),
+                clientTwitterId: $("#clientTwitterId").val(),
+                clientCompanyId: $("#clientCompanyId").val()
+                //clientDateTime: $("#clientDateTime").val()
+            
+            },
+            success: function(response) {
+                window.location.reload();
+            }
+        });
+    }
+
+    function deleteClient(clientId) {
+        $.ajax({
+            type: "post",
+            url: "deleteclientcontact.php",
+            data: {
+                clientId: clientId
+            },
+            success: function(response) {
+                window.location.reload();
+            }
+        });
+    }
+
+    function showClientCompany(companyId) {
+        //window.location.href="showCompany.php?companyId="+companyId;
+        $("#myModalCompany").modal('toggle');
+        $.ajax({
+                type: "post",
+                url:"showCompany.php",
+                data: {
+                    companyId:companyId
+                    
+                },
+                success: function(companyresult){
+                    //console.log(companyresult);
+                    //return;
+                    $("#companyName").val(companyresult.companyName);
+                    $("#companyWebsite").val(companyresult.companyWebsite);
+                    $("#companyEmail").val(companyresult.companyEmail);
+                    $("#companyPhone").val(companyresult.companyPhone);
+                    $("#companyLinkedIn").val(companyresult.companyLinkedIn);
+                    $("#companyAddress").val(companyresult.companyAddress);
+                
+                }
+        });
+    }
+
+    var offset = 0;
+    var limit = 4;
+    var isUpdateOffsetPristine = true;
 
 function loadByLimit(){
+    $("#ajaxButton").prop("disabled", "true");
     $.ajax({
-              type: "Post",
-              url: "clientdatabasepage.php",
-              data: {
+        type: "Post",
+        url: "clientdatabasepage.php",
+        data: {
             limitVal: limit,
             offsetVal: offset,
-                 },
-              success: function(data) {
-                responseData = data;
-                   //alert(data);
-              //  console.log(data);
-                //  $v = json_decode(data);
-                if(data.length == 0 && isUpdateOffsetPristine == true) {
-                        $("#bde-list").html("<h4 class='text-center'>No Clients Are Available!</h4>");
-                        $("#ajaxButton").hide();
-                        return;
-                    } else if(data.length == 0 && isUpdateOffsetPristine == false) {
-                        $("#bde-list").append("<h4 class='text-center'>No More Clients Are Available!</h4>");
-                        $("#ajaxButton").hide();
-                        return;
-                    }
-                    var bdeListBuilder = "";
-                    if(data.length == 0) {
-                        $("#bde-list").html("<h4 class='text-center'>No Client Are Available!</h4>");
-                        return;
-                    }
-          var status = false;
-          
-          for(var i=0; i<data.length; i++) { 
+        },
+        success: function(data) {
+            responseData = data;
+            if(data.length == 0 && isUpdateOffsetPristine == true) {
+                $("#bde-list").html("<h4 class='text-center'>No Clients Are Available!</h4>");
+                $("#ajaxButton").hide();
+                return;
+            } else if(data.length == 0 && isUpdateOffsetPristine == false) {
+                $("#bde-list").append("<h4 class='text-center'>No More Clients Are Available!</h4>");
+                $("#ajaxButton").hide();
+                return;
+            }
+            var bdeListBuilder = "";
+            if(data.length == 0) {
+                $("#bde-list").html("<h4 class='text-center'>No Client Are Available!</h4>");
+                return;
+            }
+            for(var i=0; i<data.length; i++) { 
+                var bdeListBuilder = "";
+                bdeListBuilder += "<tr>";
 
-                        var bdeListBuilder = "";
-                        bdeListBuilder += "<tr>";
- 
-                      //  bdeListBuilder += "<td>" + data[i].clientId + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientFirstName + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientLastName + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientEmail + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientMobile + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientCategory + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientDesignation + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientAddress + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientCountry + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientState + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientCity + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientLinkedInId + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientFacebookId + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
-                        bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
-                        bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-primary action-btn' onclick='showClientCompany(" + data[i].clientCompanyId + ")'><span class='glyphicon glyphicon-knight'></span></button></td>'";
-                        bdeListBuilder += "</tr>";
-                        $("#bde-list-table").append(bdeListBuilder);
+                //  bdeListBuilder += "<td>" + data[i].clientId + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientFirstName + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientLastName + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientEmail + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientMobile + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientCategory + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientDesignation + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientAddress + "</td>";
+                jQuery.each( countries, function( index, value ) {
+                    if(value.country_id == data[i].clientCountry) {
+                        bdeListBuilder += "<td>" + value.country_name + "</td>";
+                        return;
                     }
-                  
-                    offset += limit;
-                    isUpdateOffsetPristine = false;
-                    
-              }
-        }); 
-
-        
+                });
+                jQuery.each( states, function( index, value ) {
+                    if(value.state_id == data[i].clientState) {
+                        bdeListBuilder += "<td>" + value.state_name + "</td>";
+                        return;
+                    }
+                });
+                jQuery.each( cities, function( index, value ) {
+                    if(value.city_id == data[i].clientCity) {
+                        bdeListBuilder += "<td>" + value.city_name + "</td>";
+                        
+                        return;
+                    }
+                });
+                bdeListBuilder += "<td>" + data[i].clientLinkedInId + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientFacebookId + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
+                bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
+                bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-primary action-btn' onclick='showClientCompany(" + data[i].clientCompanyId + ")'><span class='glyphicon glyphicon-knight'></span></button></td>'";
+                bdeListBuilder += "</tr>";
+                $("#bde-list-table").append(bdeListBuilder);
+            }
+            offset += limit;
+            isUpdateOffsetPristine = false;  
+            $("#ajaxButton").prop("disabled", ""); 
+        }
+    });        
 }
-
-   </script>
+</script>
 </head>
 <body>
     <?php include 'navbar.php';?>
     <div class="content-view">
         <div class="container-fluid">
-            <!-- Admin Access Only -->
-            <?php if ($_SESSION['role'] == "ADMIN") : ?>
-                <div id="admin-container">
-                    <h2 class="text-center">Admin</h2>
-                </div>
-            <?php endif; ?>
-            <!-- BDM Access Only -->
-            <?php if ($_SESSION['role'] == "BDM") : ?>
-                <div id="bdm-container">
-                    <h2 class="text-center">BDM</h2>
-                </div>
-            <?php endif; ?>
             <!-- BDE Access Only -->
             <?php if ($_SESSION['role'] == "BDE") : ?>
                 <div id="bde-container">
-                   
                     <h2 class="text-center">Client List</h2>
                     <div class="row">
-                    <p id="clients" class="text-center" style="color:red;">
-                        <?php
-                        if(isset($_SESSION["server-msg"])) {
-                            echo $_SESSION["server-msg"];
-                            unset($_SESSION["server-msg"]);
-                        }
-                        ?>
-                    </p>
-                        
-                             <div  id="bde-list" class="col-md-12">
-                                <div style="overflow-x:auto;">
-                       <table class="table table-bordered text-center">
-                       <thead class="sta-app-horizontal-table-thead">
-                            <tr>
-                                
-                                <th>First Name </th>
-                                <th>Last Name </th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Category</th>
-                                <th>Designation</th>
-                                <th>Address </th>
-                                <th>Country</th>
-                                <th>State </th>
-                                <th>City </th>
-                                <th>LinkedIn Id </th>
-                                <th>Facebook Id </th>
-                                <th>Twitter Id </th>
-                                <th>Status </th>
-                                <th>Date And Time </th>
-                                <th> Actions </th>
-
-                                
-                            </tr>  </thead>
-                           <tbody  id="bde-list-table">
-                                  
-                              </tbody>
-                            </table> 
-                              
+                        <p id="clients" class="text-center" style="color:red;">
+                            <?php
+                            if(isset($_SESSION["server-msg"])) {
+                                echo $_SESSION["server-msg"];
+                                unset($_SESSION["server-msg"]);
+                            }
+                            ?>
+                        </p>
+                        <div  id="bde-list" class="col-md-12">
+                            <div style="overflow-x:auto;">
+                                <table class="table table-bordered text-center">
+                                    <thead class="sta-app-horizontal-table-thead">
+                                        <tr>
+                                            <th>First Name </th>
+                                            <th>Last Name </th>
+                                            <th>Email</th>
+                                            <th>Mobile</th>
+                                            <th>Category</th>
+                                            <th>Designation</th>
+                                            <th>Address </th>
+                                            <th>Country</th>
+                                            <th>State </th>
+                                            <th>City </th>
+                                            <th>LinkedIn Id </th>
+                                            <th>Facebook Id </th>
+                                            <th>Twitter Id </th>
+                                            <th>Status </th>
+                                            <th>Date And Time </th>
+                                            <th> Actions </th>
+                                        </tr>  
+                                    </thead>
+                                    <tbody  id="bde-list-table"></tbody>
+                                </table> 
+                            </div>                  
+                        </div>
                     </div>
-                                
-        </div><!-- row end --> 
-
-   
-   <input type="button" class="btn btn-primary" value="Click Here" id="ajaxButton"/>
-        <div id="result"></div>
+                    <div class="text-center" style="margin-top: 10px;">
+                        <input type="button" class="btn btn-default" value="Click Here" id="ajaxButton"/>
+                    </div>
+                    <div id="result"></div>
+                </div>
             <?php endif; ?>
-           </div>     
-        </div> 
-    </div>
- </div>
-          
-        
-       
+        </div>     
+    </div> 
     <?php include 'footer.php';?>
-    
 </body>
 </html>
 <p  data-toggle="modal" data-target="#myModal"></p>
@@ -581,10 +630,8 @@ function loadByLimit(){
 </div>
 <!--MODAL of COMPANY DETAILS -->
 <p  data-toggle="modal" data-target="#myModalCompany"></p>
-
 <div id="myModalCompany" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -592,80 +639,35 @@ function loadByLimit(){
         <h4 class="modal-title">Client Company Details</h4>
       </div>
       <div class="modal-body">
-           
       <!-- modal body starts here -->
-     
-      <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Company Name : </label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input id="companyName" name="companyName" type="text" class="form-control" placeholder="Enter Company Name" >
-                                        <i style="color:red" id="companyNameError" ></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Company Website: </label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input id="companyWebsite" name="companyWebsite" type="text" class="form-control" placeholder="Enter Website URL" >
-                                        <i style="color:red" id="companyWebsiteError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Company Email id: </label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input id="companyEmail" name="companyEmail" class="form-control" type="text" placeholder="Enter Company email-id" >
-                                        <i style="color:red" id="companyEmailError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Company Phone: </label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input id="companyPhone" name="companyPhone" type="text" class="form-control" placeholder="Enter Company phone number" >
-                                        <i style="color:red" id="companyPhoneError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-                            
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Company LinkedIN Id: </label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input id="companyLinkedIn" name="companyLinkedIn" type="text" class="form-control" placeholder="Company linked in id" >
-                                        <i style="color:red" id="companyLinkedInError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Company Address: </label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea  id="companyAddress" name="companyAddress" class="form-control" placeholder="Enter Comapny address here" ></textarea>
-                                        <i style="color:red" id="companyAddressError"></i>
-                                    </div>
-                                </div>
-                            </div><!-- row end -->
-                        
+     <table class="table table-bordered"  >
+                        <tr>
+                        <th>Company Name : </th>
+<td><input id="companyName" name="companyName" type="text" class="form-control" placeholder="Enter Company Name" readonly></td>
+                        </tr>   <br> 
+                        <tr>            
+                        <th>Company Website: </th>
+<td><input id="companyWebsite" name="companyWebsite" type="text" class="form-control" placeholder="Enter Website URL" readonly></td>
+                          </tr>    <br>
+                          <tr>
+                        <th>Company Email id: </th>
+<td><input id="companyEmail" name="companyEmail" class="form-control" type="text" placeholder="Enter Company email-id" readonly></td>
+                             </tr>          <br>
+                             <tr>
+                        <th>Company Phone: </th>
+<td><input id="companyPhone" name="companyPhone" type="text" class="form-control" placeholder="Enter Company phone number" readonly></td>
+                                   </tr>    <br>
+                                   <tr>
+                        <th>Company LinkedIN Id: </th>
+<td><input id="companyLinkedIn" name="companyLinkedIn" type="text" class="form-control" placeholder="Company linked in id" readonly></td>
+                                     </tr> <br>
+                                     <tr>
+                        <th>Company Address: </th>
+<td><textarea  id="companyAddress" name="companyAddress" class="form-control" placeholder="Enter Comapny address here" readonly></textarea></td>
+                          </tr>            
       <!-- modal body ends here -->
           
+          </table>
       </div>
       
     </div>

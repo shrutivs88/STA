@@ -72,14 +72,14 @@ if($row = mysqli_fetch_object($mang_query)){
               //get all values
               $clientFirstName = $client["clientFirstName"];
               $clientLastName = $client["clientLastName"];
-              $clientEmail = implode(',',$client["clientEmail"]);
+              $clientEmail = $client["clientEmail"];
               $clientMobile = $client["clientMobile"];
               $clientCategory = $client["clientCategory"];
               $clientDesignation = $client["clientDesignation"];
               $clientAddress = $client["clientAddress"];
-              $clientCity = $client["clientCity"];
-              $clientState = $client["clientState"];
               $clientCountry = $client["clientCountry"];
+              $clientState = $client["clientState"];
+              $clientCity = $client["clientCity"];
               $clientLinkedInid = $client["clientLinkedInid"];
               $clientFacebookid = $client["clientFacebookid"];
               $clientTwitterid = $client["clientTwitterid"];
@@ -89,8 +89,8 @@ if($row = mysqli_fetch_object($mang_query)){
 
 
     //check if client email already exits with same company id
-    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)
-    values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId','$userEmpId')";
+    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCountry,clientState,clientCity,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)
+    values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCountry','$clientState','$clientCity','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId','$userEmpId')";
     
    
     //execute query for each loop

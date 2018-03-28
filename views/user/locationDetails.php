@@ -84,4 +84,8 @@ if($locationType == "city-all-by-state-id") {
     echo json_encode($listOfCityByStateId);
     exit();
 }
+
+if($locationType == "all-locations") {
+
+}
 ?>
