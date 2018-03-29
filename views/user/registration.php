@@ -128,7 +128,7 @@ $userId = $_SESSION["userId"];
            
         </form>   
                 <div class="col-sm-6 col-sm-offset-3">
-                    <button type="button" class="btn btn-primary" onclick="addacontact()" data-toggle="modal" data-target="#exampleModal" id="myBtn">
+                    <button type="button" class="btn btn-primary" onclick="addcontact()" data-toggle="modal" data-target="#exampleModal" id="myBtn">
             Add a Contact
             
             </button>
@@ -239,7 +239,7 @@ $userId = $_SESSION["userId"];
                                     </div>
                                     <div class="col-sm-8">
                                         <select id="clientCountry" name="clientCountry"  class="form-control" onfocusout="validateClientCountry()">
-                                            <option value="">Choose Country</option>
+                                            <option value="">Select Country</option>
                                         </select>
                                         <i style="color:red" id="clientCountryError"></i>
                                     </div>
@@ -253,7 +253,7 @@ $userId = $_SESSION["userId"];
                                         </div>
                                     <div class="col-sm-8">
                                         <select  id="clientState" name="clientState"  class="form-control" onfocusout="validateClientState()">
-                                            <option value="">Choose State</option>
+                                            <option value="">Select State</option>
                                            
                                         </select>
                                         <i style="color:red" id="clientStateError"></i>
@@ -268,7 +268,7 @@ $userId = $_SESSION["userId"];
                                         </div>
                                         <div class="col-sm-8">
                                             <select id="clientCity" name="clientCity"  class="form-control" onfocusout="validateClientCity()">
-                                                <option value="">Choose City</option>
+                                                <option value="">Select City</option>
                                                
                                             </select>
                                             <i style="color:red" id="clientCityError"></i>
@@ -336,6 +336,7 @@ $userId = $_SESSION["userId"];
             <?php endif; ?>
         </div> 
     </div>
+    <?php include 'footer.php';?>
     <script>
     function submitForm1() 
         {
@@ -400,10 +401,101 @@ $userId = $_SESSION["userId"];
             
         }
 
+    var countries = [];
+    var states = [];
+    var cities = [];
+
+    $(document).ready(function() {
+        preInitilizeLocationChainingEffectBeginByInitCountry();
+        
+        $("#clientCountry").change(function() {
+            var countryId = $("#clientCountry").val();
+            $("#clientState").html("<option value=''>Select State</option>");
+            $("#clientCity").html("<option value=''>Select City</option>");
+            if($("#clientCountry").val() != "") {
+                loadStatesByCountryIdFromStatesArray(countryId);
+            }
+        });
+
+        $("#clientState").change(function() {
+            var stateId = $("#clientState").val();
+            $("#clientCity").html("<option value=''>Select City</option>");
+            if($("#clientState").val() != "") {
+                loadCitiesByStateIdFromCitiesArray(stateId);
+            }
+        });
+    });
+
+    function preInitilizeLocationChainingEffectBeginByInitCountry() {
+        /**Loading all countries */
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"country-all"
+            },
+            success: function(response) {
+                countries = response.data;
+                initStatesChainingEffect();
+            }
+        });
+    }
+
+    function initStatesChainingEffect() {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"state-all"
+            },
+            success: function(response) {
+                states = response.data;
+                initCitiesChainingEffect();
+            }
+        });
+    }
+
+    function initCitiesChainingEffect() {
+        $.ajax({
+            type: "post",
+            url: "locationDetails.php",
+            data: {
+                locationType:"city-all"
+            },
+            success: function(response) {
+                cities = response.data;
+            }
+        });
+    }
+
+    function addcontact(){
+        var modalCountryBuilder = "<option value=''>Select Country</option>";
+        jQuery.each(countries, function( index, value ) {
+            modalCountryBuilder += "<option value='" + value.country_id + "'>" + value.country_name + "</option>";
+        });
+        $("#clientCountry").html(modalCountryBuilder);
+    }
+
+    function loadStatesByCountryIdFromStatesArray(countryId) {
+        var modalStateBuilder = "<option value=''>Select State</option>";
+        jQuery.each(states, function( index, value ) {
+            if(value.country_id == countryId) {
+                modalStateBuilder += "<option value='" + value.state_id + "'>" + value.state_name + "</option>";
+            }
+        });
+        $("#clientState").html(modalStateBuilder);
+    }
+
+    function loadCitiesByStateIdFromCitiesArray(stateId) {
+        var modalCityBuilder = "<option value=''>Select City</option>";
+        jQuery.each(cities, function( index, value ) {
+            if(value.state_id == stateId) {
+                modalCityBuilder += "<option value='" + value.city_id + "'>" + value.city_name + "</option>";
+            }
+        });
+        $("#clientCity").html(modalCityBuilder);
+    }
 
     </script>
-    <?php include 'footer.php';?>
-    
-
 </body>
 </html>

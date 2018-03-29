@@ -33,15 +33,39 @@ session_start();
             $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
             fgetcsv($csvFile);
 
-            
             while(($data = fgetcsv($csvFile)) !==FALSE){
                   //fetch country id by country name and set id if exsits else set 0
+                
+                $country_sql="select * from countries where country_name='$data[9]'";    
+                $country_res = mysqli_query($conn, $country_sql);
+                $country_row = mysqli_fetch_object($country_res);
+                $state_sql="select * from states where state_name='$data[8]'";
+                $state_res = mysqli_query($conn, $state_sql);
+                $state_row = mysqli_fetch_object($state_res);
+                $city_sql="select * from cities where city_name='$data[7]'";
+                $city_res = mysqli_query($conn, $city_sql);
+                $city_row = mysqli_fetch_object($city_res);
+                
                 $clientCountry = 0;
-                $countryName = $data[9];
-                $country_sql="select * from countries where country_name='$countryName'";    
-                $res = mysqli_query($conn, $country_sql);
-                $row = mysqli_fetch_object($res);
-                    
+                if($country_row != null) {
+                    $clientCountry = $country_row->country_id;
+                }
+
+                $clientState = 0;
+                if($state_row != null) {
+                    if($state_row->country_id == $clientCountry) {
+                        $clientState = $state_row->state_id;
+                    }
+                }
+
+                $clientCity = 0;
+                if($city_row != null) {
+                    if($city_row->country_id == $clientCountry && $city_row->state_id == $clientState) {
+                        $clientCity = $city_row->city_id;
+                    }
+                }
+                
+                
                 $clientFirstName = $data[0];
                 $clientLastName = $data[1];
                 $clientEmail = $data[2];
@@ -49,15 +73,11 @@ session_start();
                 $clientCategory = $data[4];
                 $clientDesignation = $data[5];
                 $clientAddress = $data[6];
-                $clientCity = $data[7];
-                $clientState = $data[8];
-                
                 $clientLinkedInId = $data[10];
                 $clientFacebookId = $data[11];
                 $clientTwitterId = $data[12];
                 $clientCompanyId = $companyId;
-                $userManagerId =  $userManagerId;
-                //$status = $data[15];  
+                $userManagerId =  $userManagerId; 
               
           $sql_csv = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')"; 
           $db = mysqli_query($conn,$sql_csv);

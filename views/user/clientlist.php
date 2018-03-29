@@ -18,7 +18,7 @@ if(!isset($_SESSION["email"])) {
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
     
     <script>
-    var responseData = "";
+    var responseData = [];
     var limit = 10
     var offset = 0;
     var isUpdateOffsetPristine = true;
@@ -187,6 +187,9 @@ if(!isset($_SESSION["email"])) {
                         }
                         $("#clientCountry").html(optionsCountry);
                         $("#clientCountry").val(data.clientCountry);
+                        if(data.clientCountry == 0) {
+                            $("#clientCountry").val("");
+                        }
                         loadStatesJsonAndSetState(data);
             }
         });
@@ -209,6 +212,9 @@ if(!isset($_SESSION["email"])) {
                         }
                         $("#clientState").html(optionsStates);
                         $("#clientState").val(data.clientState);
+                        if(data.clientState == 0) {
+                            $("#clientState").val("");
+                        }
                         loadCitiesJsonAndSetCity(data);
             }
         });
@@ -231,6 +237,9 @@ if(!isset($_SESSION["email"])) {
                         }
                         $("#clientCity").html(optionsCities);
                         $("#clientCity").val(data.clientCity);
+                        if(data.clientCity == 0) {
+                            $("#clientCity").val("");
+                        }
             }
         });
     }
@@ -251,9 +260,9 @@ if(!isset($_SESSION["email"])) {
                 clientCategory: $("#clientCategory").val(),
                 clientDesignation: $("#clientDesignation").val(),
                 clientAddress: $("#clientAddress").val(),
-                clientCity: $("#clientCity").val(),
-                clientState: $("#clientState").val(),
                 clientCountry: $("#clientCountry").val(),
+                clientState: $("#clientState").val(),
+                clientCity: $("#clientCity").val(),
                 clientLinkedInId: $("#clientLinkedInId").val(),
                 clientFacebookId: $("#clientFacebookId").val(),
                 clientTwitterId: $("#clientTwitterId").val(),
@@ -318,7 +327,9 @@ function loadByLimit(){
             offsetVal: offset,
         },
         success: function(data) {
-            responseData = data;
+            jQuery.each( data, function( index, value ) {
+                responseData.push(jQuery.extend(true, {}, value));
+            });
             if(data.length == 0 && isUpdateOffsetPristine == true) {
                 $("#bde-list").html("<h4 class='text-center'>No Clients Are Available!</h4>");
                 $("#ajaxButton").hide();
@@ -345,25 +356,39 @@ function loadByLimit(){
                 bdeListBuilder += "<td>" + data[i].clientCategory + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientDesignation + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientAddress + "</td>";
+                var isCountrySet = false;
                 jQuery.each( countries, function( index, value ) {
                     if(value.country_id == data[i].clientCountry) {
                         bdeListBuilder += "<td>" + value.country_name + "</td>";
+                        isCountrySet = true;
                         return;
                     }
                 });
+                if(!isCountrySet) {
+                    bdeListBuilder += "<td>-</td>";
+                }
+                var isStateSet = false;
                 jQuery.each( states, function( index, value ) {
                     if(value.state_id == data[i].clientState) {
                         bdeListBuilder += "<td>" + value.state_name + "</td>";
+                        isStateSet = true;
                         return;
                     }
                 });
+                if(!isStateSet) {
+                    bdeListBuilder += "<td>-</td>";
+                }
+                var isCitySet = false;
                 jQuery.each( cities, function( index, value ) {
                     if(value.city_id == data[i].clientCity) {
                         bdeListBuilder += "<td>" + value.city_name + "</td>";
-                        
+                        isCitySet = true;
                         return;
                     }
                 });
+                if(!isCitySet) {
+                    bdeListBuilder += "<td>-</td>";
+                }
                 bdeListBuilder += "<td>" + data[i].clientLinkedInId + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientFacebookId + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
