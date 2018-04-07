@@ -12,14 +12,14 @@ session_start();
 
   }
 
-  //$userId = $_POST['userId'];
+  
   $companyName = $_POST['companyName'];
   $companyWebsite =$_POST['companyWebsite'];
   $companyEmail=$_POST['companyEmail'];
   $companyPhone=$_POST['companyPhone'];
   $companyLinkedIn=$_POST['companyLinkedIn'];
   $companyAddress =$_POST['companyAddress'];
-  //$offset = $_POST['offset'];
+  
 
 // check company details validation
 if($companyName == "" || $companyWebsite =="" || $companyEmail == "" || $companyPhone == "" ||  $companyLinkedIn == "" || $companyAddress == "" )
@@ -67,12 +67,29 @@ if($row = mysqli_fetch_object($mang_query)){
   
      // echo "<h3> One or more fields are not filled </h3>";
          $clientDetails= $_POST['clientDetails'];
+        
          $errors = [];
+         $email = array();
             foreach($clientDetails as $client) {
               //get all values
               $clientFirstName = $client["clientFirstName"];
               $clientLastName = $client["clientLastName"];
-              $clientEmail = $client["clientEmail"];
+              $Email = $client["clientEmail"];
+              $Email2 = $client["clientEmail2"];
+              $Email3 = $client["clientEmail3"];
+              array_push($email,$Email);
+              if(isset($Email2)&&($Email3)){
+                array_push($email,$Email2,$Email3);
+                $clientEmail = implode(',',$email);
+              }else{
+                array_push($email,$Email2);
+                $clientEmail = implode(',',$email);
+              }
+             // $Email2 = $client["clientEmail2"];
+             // array_push($email,$Email2);
+             // $Email3 = $client["clientEmail3"];
+             // array_push($email,$Email3);
+              //$clientEmail = implode(',',$email);
               $clientMobile = $client["clientMobile"];
               $clientCategory = $client["clientCategory"];
               $clientDesignation = $client["clientDesignation"];

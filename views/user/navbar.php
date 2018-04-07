@@ -12,6 +12,7 @@
         <div class="collapse navbar-collapse" id="app-header-collape">
             <ul class="nav navbar-nav">
                 <li><a href="home.php">Home</a></li>
+                <li><a href="companyclientlist.php">Company Client List</a></li>
                 <!-- Admin Access Only -->
                 <?php if ($_SESSION['role'] == "ADMIN") : ?>
                 <li class="dropdown">
@@ -29,6 +30,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="registration.php">Add BDE</a></li>
                         <li><a href="clientlist.php">BDE List</a></li>
+                    
                     </ul>
                 </li>
                 <?php endif; ?>
@@ -42,6 +44,7 @@
                         <li><a href="registration.php">Add Client</a></li>
                         <li><a href="csv.php">BDE via CSV</a></li>
                         <li><a href="clientlist.php">Client List</a></li>
+                      <!--  <li><a href="companyclientlist.php">Company Client List</a></li>-->
                     </ul>
                     <?php endif; ?>
                 </li>

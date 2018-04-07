@@ -74,7 +74,7 @@ $userId = $_SESSION["userId"];
                                         <label>Company Website: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input id="companyWebsite" name="companyWebsite" type="text" class="form-control" placeholder="Enter Website URL" onfocusout="validatecompanyWebsite()">
+                                        <input id="companyWebsite" name="companyWebsite" type="text" class="form-control" placeholder="Enter Website URL" onfocusout="validateCompanyWebsite()">
                                         <i style="color:red" id="companyWebsiteError"></i>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@ $userId = $_SESSION["userId"];
                                         <label>Company Email id: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input id="companyEmail" name="companyEmail" class="form-control" type="text" placeholder="Enter Company email-id"  onfocusout="validatecompanyEmail()">
+                                        <input id="companyEmail" name="companyEmail" class="form-control" type="text" placeholder="Enter Company email-id"  onfocusout="validateCompanyEmail()">
                                         <i style="color:red" id="companyEmailError"></i>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@ $userId = $_SESSION["userId"];
                                         <label>Company Phone: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input id="companyPhone" name="companyPhone" type="text" class="form-control" placeholder="Enter Company phone number" onfocusout="validatecompanyPhone()">
+                                        <input id="companyPhone" name="companyPhone" type="text" class="form-control" placeholder="Enter Company phone number" onfocusout="validateCompanyPhone()">
                                         <i style="color:red" id="companyPhoneError"></i>
                                     </div>
                                 </div>
@@ -108,7 +108,7 @@ $userId = $_SESSION["userId"];
                                         <label>Company LinkedIN Id: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input id="companyLinkedIn" name="companyLinkedIn" type="text" class="form-control" placeholder="Company linked in id" onfocusout="validatecompanyLinkedIn()">
+                                        <input id="companyLinkedIn" name="companyLinkedIn" type="text" class="form-control" placeholder="Company linked in id" onfocusout="validateCompanyLinkedIn()">
                                         <i style="color:red" id="companyLinkedInError"></i>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@ $userId = $_SESSION["userId"];
                                         <label>Company Address: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <textarea  id="companyAddress" name="companyAddress" class="form-control" placeholder="Enter Comapny address here" onfocusout="validatecompanyAddress()"></textarea>
+                                        <textarea  id="companyAddress" name="companyAddress" class="form-control" placeholder="Enter Comapny address here" onfocusout="validateCompanyAddress()"></textarea>
                                         <i style="color:red" id="companyAddressError"></i>
                                     </div>
                                 </div>
@@ -177,9 +177,24 @@ $userId = $_SESSION["userId"];
                                                 <div class="col-sm-4">
                                                     <label>Email id: </label>
                                                 </div>
+                                                <div class="col-sm-8" id="emailBtn">
+                                                    <div class="form-group">
+                                                        <input id="clientEmail" name="clientEmail" type="text" class="form-control" placeholder="Enter Your email-id" form="form1" onfocusout="validateClientEmail()"> 
+                                                        <i style="color:red" id="clientEmailError"></i>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div><!-- row end -->
+                                        
+                                      <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                 
+                                                </div>
                                                 <div class="col-sm-8">
-                                                    <input id="clientEmail" name="clientEmail" type="text" class="form-control" placeholder="Enter Your email-id "    form="form1" onfocusout="validateClientEmail()"> 
-                                                    <i style="color:red" id="clientEmailError"></i>
+                                                    <div class="form-group">
+                                                    <button id="add-another-email-btn" type="button" onclick="addAnotherEmail()">Add Another Email</button>   
+                                                    </div> 
                                                 </div>
                                             </div>
                                         </div><!-- row end -->
@@ -326,7 +341,8 @@ $userId = $_SESSION["userId"];
         
                 <div class="form-group">
                     <div class="row text-center">
-                         <button type="button" onclick="submitForm1()" id="submitbtn" class="btn btn-success" value="submit" form="form1">Submit</button>
+                        <button type="button" onclick="submitForm1()" id="submitbtn" class="btn btn-success" value="submit" form="form1">Submit</button>
+                        <button type="reset" onclick="resetForm1InputField()" id="resetbtn" class="btn btn-danger" value="reset" form="form1">Clear</button>
                     </div>
                 </div><!-- row end -->
 
@@ -341,24 +357,28 @@ $userId = $_SESSION["userId"];
     function submitForm1() 
         {
             validateCompanyName();
-            validatecompanyWebsite();
-            validatecompanyEmail();
-            validatecompanyPhone();
-            validatecompanyLinkedIn();
-            validatecompanyAddress();
+            validateCompanyWebsite();
+            validateCompanyEmail();
+            validateCompanyPhone();
+            validateCompanyLinkedIn();
+            validateCompanyAddress();
 
             if((companyNameErrorFlag == false)&&(companyWebsiteErrorFlag == false)&&(companyEmailErrorFlag == false)&&(companyPhoneErrorFlag == false)&&(companyLinkedInErrorFlag == false)&&(companyAddressErrorFlag == false))
-            {
+            //&&(clientFirstNameErrorFlag == false)&&(clientLastNameErrorFlag==false)&&(clientEmailErrorFlag==false)&&(clientEmailErrorFlag2==false)&&(clientEmailErrorFlag3==false)&&(clientMobileErrorFlag==false)&&
+            //(clientCategoryErrorFlag==false)&&(clientDesignationErrorFlag==false)&&(clientCityErrorFlag==false)&&
+            //(clientStateErrorFlag==false)&&(clientCountryErrorFlag==false)&&(clientAddressErrorFlag==false)&&(clientLinkedInErrorFlag==false)&&(clientFacebookIdErrorFlag==false)&&(clientTwitterIdErrorFlag==false))
+            {    
             $("#companyName").prop('readonly',true);
             $("#companyWebsite").prop('readonly',true);
             $("#companyEmail").prop('readonly',true);
             $("#companyPhone").prop('readonly',true);
             $("#companyLinkedIn").prop('readonly',true);
             $("#companyAddress").prop('readonly',true);
-
             $("#clientFirstName").prop('readonly',true);
             $("#clientLastName").prop('readonly',true);
             $("#clientEmail").prop('readonly',true);
+            $("#clientEmail2").prop('readonly',true);
+            $("#clientEmail3").prop('readonly',true);
             $("#clientMobile").prop('readonly',true);
             $("#clientCategory").prop('readonly',true);
             $("#clientDesignation").prop('readonly',true);
@@ -496,6 +516,46 @@ $userId = $_SESSION["userId"];
         $("#clientCity").html(modalCityBuilder);
     }
 
+   var limit=3;
+    var addanotherbtn=2;
+    function addAnotherEmail() 
+    {
+            if(addanotherbtn <= limit) 
+            {
+                $('#emailBtn').append("<input type='text' class='form-control' placeholder='Enter Your email-id'   form='form1' onfocusout='validateClientEmail"+ addanotherbtn +"()'  id='clientEmail"+ addanotherbtn +"' name='clientEmail" + addanotherbtn + "'><br><i style='color:red' id='clientEmailError"+ addanotherbtn +"'></i>");
+                if(addanotherbtn === limit)
+                $('#add-another-email-btn').hide();   
+                 addanotherbtn++;
+                  return;
+            }     
+    }    
+  function resetForm1InputField()
+  {
+            $("#companyName").text("");
+            $("#companyName").val("");
+            $("#companyName").css({"border-color":"#ccc"});
+
+            $("#companyWebsite").text("");
+            $("#companyWebsite").val("");
+            $("#companyWebsite").css({"border-color":"#ccc"});
+
+            $("#companyEmail").text("");
+            $("#companyEmail").val("");
+            $("#companyEmail").css({"border-color":"#ccc"});
+
+            $("#companyPhone").text("");
+            $("#companyPhone").val("");
+            $("#companyPhone").css({"border-color":"#ccc"});
+
+            $("#companyLinkedIn").text("");
+            $("#companyLinkedIn").val("");
+            $("#companyLinkedIn").css({"border-color":"#ccc"});
+
+            $("#companyAddress").text("");
+            $("#companyAddress").val("");
+            $("#companyAddress").css({"border-color":"#ccc"});
+  }  
+    
     </script>
 </body>
 </html>

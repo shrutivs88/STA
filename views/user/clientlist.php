@@ -4,7 +4,7 @@ include '../../config.php';
 if(!isset($_SESSION["email"])) {
     header("Location:login.php");
 }
-?>`
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,10 +16,9 @@ if(!isset($_SESSION["email"])) {
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo BASEURL; ?>assets/css/styles.css" />
     <script src="<?php echo BASEURL; ?>assets/js/jquery.min.js"></script>
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
-    
     <script>
     var responseData = [];
-    var limit = 10
+    var limit = 10;
     var offset = 0;
     var isUpdateOffsetPristine = true;
     var countries = [];
@@ -316,8 +315,10 @@ if(!isset($_SESSION["email"])) {
     var offset = 0;
     var limit = 4;
     var isUpdateOffsetPristine = true;
+    var count =0;
 
 function loadByLimit(){
+    count++;
     $("#ajaxButton").prop("disabled", "true");
     $.ajax({
         type: "Post",
@@ -348,7 +349,9 @@ function loadByLimit(){
                 var bdeListBuilder = "";
                 bdeListBuilder += "<tr>";
 
-                //  bdeListBuilder += "<td>" + data[i].clientId + "</td>";
+                //bdeListBuilder += "<td>" + data[i].clientId + "</td>";
+               // bdeListBuilder += "<td>"+ parseInt(i+1) +"</td>";
+                bdeListBuilder += "<td>"+ parseInt(count+i) +"</td>";
                 bdeListBuilder += "<td>" + data[i].clientFirstName + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientLastName + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientEmail + "</td>";
@@ -400,6 +403,8 @@ function loadByLimit(){
             }
             offset += limit;
             isUpdateOffsetPristine = false;  
+            count = count+limit-1;
+
             $("#ajaxButton").prop("disabled", ""); 
         }
     });        
@@ -428,6 +433,7 @@ function loadByLimit(){
                                 <table class="table table-bordered text-center">
                                     <thead class="sta-app-horizontal-table-thead">
                                         <tr>
+                                            <th>Sl No. </th>
                                             <th>First Name </th>
                                             <th>Last Name </th>
                                             <th>Email</th>

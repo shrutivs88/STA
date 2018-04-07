@@ -81,7 +81,7 @@ session_start();
               
           $sql_csv = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')"; 
           $db = mysqli_query($conn,$sql_csv);
-
+                header("Location:clientlist.php");
             }
         }     
          //  $prevSql = "select clientId from client_details where clientEmail ='$clientEmail'";  

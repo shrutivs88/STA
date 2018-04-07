@@ -4,6 +4,8 @@
           "clientFirstName":"",
           "clientLastName":"",
           "clientEmail":"",
+          "clientEmail2":"",
+          "clientEmail3":"",
           "clientMobile":"",
           "clientCategory":"",
           "clientDesignation":"",
@@ -20,7 +22,9 @@
         var clientFirstNameErrorFlag = true;
         var clientLastNameErrorFlag = true;
         var clientEmailErrorFlag = true;
-        var  clientMobileErrorFlag = true;
+        var clientEmailErrorFlag2 = true;
+        var clientEmailErrorFlag3 = true;
+        var clientMobileErrorFlag = true;
         var clientCategoryErrorFlag = true;
         var clientDesignationErrorFlag = true;
         var clientCityErrorFlag = true;
@@ -74,10 +78,10 @@
             }
                  $("#clientLastNameError").text(clientLastNameErrorMsg);
         }
-
+//first email validation
         function validateClientEmail()
         {
-            var clientEmail = $("#clientEmail").val().trim();
+            var clientEmail = $("#clientEmail").val();
             EmailRegEx= /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             clientEmailErrorFlag=false;
             clientEmailErrorMsg="";
@@ -97,7 +101,54 @@
                 $("#clientEmailError").text(clientEmailErrorMsg);
 
         }
+//second email validation
+            function validateClientEmail2()
+            {
+                var clientEmail2 = $("#clientEmail2").val();
+                EmailRegEx2= /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                clientEmailErrorFlag2=false;
+                clientEmailErrorMsg="";
+                $("#clientEmail2").css({"border":"2px solid green"});
+                if(clientEmail2=="")
+                {
+                    clientEmailErrorFlag2=true;
+                    $("#clientEmail2").css({"border":"2px solid red"}) ;
+                    clientEmailErrorMsg="Please Enter Your Email-Id";
+                }
+                else if(!EmailRegEx.test(clientEmail2))
+            {
+                    $("#clientEmail2").css({"border":"2px solid red"}) ;
+                    clientEmailErrorMsg="Invalid Email format";
+                    
+            }
+                    $("#clientEmailError2").text(clientEmailErrorMsg);
 
+            }
+
+ //third email validation
+            function validateClientEmail3()
+            {
+                var clientEmail3 = $("#clientEmail2").val();
+                EmailRegEx3= /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                clientEmailErrorFlag3=false;
+                clientEmailErrorMsg="";
+                $("#clientEmail3").css({"border":"2px solid green"});
+                if(clientEmail3=="")
+                {
+                    clientEmailErrorFlag3=true;
+                    $("#clientEmail3").css({"border":"2px solid red"}) ;
+                    clientEmailErrorMsg="Please Enter Your Email-Id";
+                }
+                else if(!EmailRegEx.test(clientEmail3))
+            {
+                    $("#clientEmail3").css({"border":"2px solid red"}) ;
+                    clientEmailErrorMsg="Invalid Email format";
+                    
+            }
+                    $("#clientEmailError3").text(clientEmailErrorMsg);
+
+            } 
+ 
         function validateClientMobile()
         {
             var clientMobile = $("#clientMobile").val().trim();
@@ -205,28 +256,34 @@
         function validateClientLinkedIn()
         {
             var clientLinkedIn = $("#clientLinkedInid").val().trim();
-            clientLinkedInErrorFlag=false;
-            clientLinkedInErrorMsg="";
+           // clientLinkedInErrorFlag=false;
+           //clientLinkedInErrorMsg="";
             $("#clientLinkedInid").css({"border":"2px solid green"});
-            if(clientLinkedIn=="")
+            if(clientLinkedIn=="" )
             {
                 clientLinkedInErrorFlag=true;
-                $("#clientLinkedInid").css({"border":"2px solid red"}) ;
-                clientLinkedInErrorMsg="Please Enter Your Linkedin id";
+               // $("#clientLinkedInid").css({"border":"2px solid red"}) ;
+               // clientLinkedInErrorMsg="Please Enter Your Linkedin id";
+            }else if(/(ftp|http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(clientLinkedIn))
+            {
+                clientLinkedInErrorFlag=false;
+               // clientLinkedInErrorMsg="<p style='color:green;'>valid Linkedin URL</p>"; 
             }
                 $("#clientLinkedInError").text(clientLinkedInErrorMsg);
         }
+        
         function validateClientFacebookId()
         {
             var clientFacebookId = $("#clientFacebookid").val().trim();
-            clientFacebookIdErrorFlag=false;
-            clientFacebookIdErrorMsg="";
+           // clientFacebookIdErrorFlag=false;
+          //  clientFacebookIdErrorMsg="";
             $("#clientFacebookid").css({"border":"2px solid green"});
             if(clientFacebookId=="")
             {
-                clientFacebookIdErrorFlag=true;
-                $("#clientFacebookid").css({"border":"2px solid red"}) ;
-                clientFacebookIdErrorMsg="Please Enter Your FacebookmId";
+                //clientFacebookIdErrorFlag=true;
+                clientFacebookIdErrorFlag=false;
+            //    $("#clientFacebookid").css({"border":"2px solid red"}) ;
+               // clientFacebookIdErrorMsg="Please Enter Your FacebookmId";
             }
                 $("#clientFacebookIdError").text(clientFacebookIdErrorMsg);
         }
@@ -234,14 +291,14 @@
         function validateClientTwitterId()
         {
             var clientTwitterId = $("#clientTwitterid").val().trim();
-            clientTwitterIdErrorFlag=false;      
-            clientTwitterIdErrorMsg="";
+           // clientTwitterIdErrorFlag=false;      
+           // clientTwitterIdErrorMsg="";
             $("#clientTwitterid").css({"border":"2px solid green"});
             if(clientTwitterId=="")
             {
-                clientTwitterIdErrorFlag=true;
-                $("#clientTwitterid").css({"border":"2px solid red"}) ;
-                clientTwitterIdErrorMsg="Please Enter your TwitterId";
+                clientTwitterIdErrorFlag=false;
+               // $("#clientTwitterid").css({"border":"2px solid red"}) ;
+              //  clientTwitterIdErrorMsg="Please Enter your TwitterId";
             }
                 $("#clientTwitterIdError").text(clientTwitterIdErrorMsg);
         }
@@ -250,6 +307,8 @@
             validateClientFirstName();
             validateClientLastName();
             validateClientEmail();
+            validateClientEmail2();
+            validateClientEmail3();
             validateClientMobile();
             validateClientCategoty();
             validateClientDesignation();
@@ -262,9 +321,11 @@
             validateClientTwitterId();
 
             //step1: get all input data from modal and save it in client object
-           client.clientFirstName = $("#clientFirstName").val();
+            client.clientFirstName = $("#clientFirstName").val();
             client.clientLastName = $("#clientLastName").val();
             client.clientEmail = $("#clientEmail").val();
+            client.clientEmail2 = $("#clientEmail2").val();
+            client.clientEmail3 = $("#clientEmail3").val();
             client.clientMobile = $("#clientMobile").val();
             client.clientCategory = $("#clientCategory").val();
             client.clientDesignation = $("#clientDesignation").val();
@@ -283,6 +344,8 @@
             client.clientFirstName = ""; 
             client.clientLastName = "";
             client.clientEmail = "";
+            client.clientEmail2 = "";
+            client.clientEmail3 = "";
             client.clientMobile = "";
             client.clientCategory = "";
             client.clientDesignation = "";
@@ -312,10 +375,18 @@
             $("#clientLastName").text("");
             $("#clientLastName").val("");
             $("#clientLastName").css({"border-color":"#ccc"});
-
+            //first email id reset
             $("#clientEmail").text("");
             $("#clientEmail").val("");
             $("#clientEmail").css({"border-color":"#ccc"});
+            //second email id reset
+            $("#clientEmail2").text("");
+            $("#clientEmail2").val("");
+            $("#clientEmail2").css({"border-color":"#ccc"});
+            //third email id reset
+            $("#clientEmail3").text("");
+            $("#clientEmail3").val("");
+            $("#clientEmail3").css({"border-color":"#ccc"});
 
             $("#clientMobile").text("");
             $("#clientMobile").val("");
@@ -364,6 +435,8 @@
             $("#clientFirstName").val("");
             $("#clientLastName").val("");
             $("#clientEmail").val("");
+            $("#clientEmail2").val("");
+            $("#clientEmail3").val("");
             $("#clientMobile").val("");
             $("#clientCategory").val("");
             $("#clientDesignation").val("");
@@ -373,9 +446,7 @@
             $("#clientAddress").val("");
             $("#clientLinkedInid").val("");
             $("#clientFacebookid").val("");
-            $("#clientTwitterid").val("");
-         
-            
+            $("#clientTwitterid").val("");  
         } 
 
         
@@ -413,7 +484,7 @@
 
         }
 
-        function validatecompanyWebsite()
+        function validateCompanyWebsite()
         {
             var companyWebsite = $("#companyWebsite").val().trim();
            websiteRegEx = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
@@ -437,7 +508,7 @@
 
         }
 
-        function validatecompanyAddress()
+        function validateCompanyAddress()
         {
             var companyAddress = $("#companyAddress").val().trim();
             companyAddressErrorFlag=false;
@@ -452,7 +523,8 @@
             //console.log($("#companyNameError"));
             $("#companyAddressError").text(companyAddressErrorMsg);
         }
-        function validatecompanyPhone()
+        
+        function validateCompanyPhone()
         {
             var companyPhone = $("#companyPhone").val().trim();
             companyPhoneErrorFlag=false;
@@ -469,7 +541,7 @@
         }
 
 
-        function validatecompanyEmail()
+        function validateCompanyEmail()
         {
             var companyEmail = $("#companyEmail").val().trim();
             companyEmailErrorFlag=false;
@@ -486,7 +558,7 @@
         }
 
 
-        function validatecompanyLinkedIn()
+        function validateCompanyLinkedIn()
         {
             var companyLinkedIn = $("#companyLinkedIn").val().trim();
             companyLinkedInErrorFlag=false;
@@ -501,7 +573,104 @@
             //console.log($("#companyNameError"));
             $("#companyLinkedInError").text(companyLinkedInErrorMsg);
         }
+//this below function is used for the reset for add contact in company Client list 
 
+        function addContactFormReset() {
+            addContactFormResetErrFlags();
+            addContactFormResetErrMsgs();
+            addContactFormResetErrOnForm();
+            $("#server-message").text("");
+        }
+        
+        function addContactFormResetErrFlags() {
+            clientFirstNameErrorFlag = true;
+            clientLastNameErrorFlag = true;
+            clientEmailErrorFlag = true;
+            clientMobileErrorFlag = true;
+            clientCategoryErrorFlag = true;
+            clientDesignationErrorFlag = true;
+            clientCityErrorFlag = true;
+            clientStateErrorFlag = true;
+            clientCountryErrorFlag  = true;
+            clientAddressErrorFlag = true;
+            clientLinkedInErrorFlag = true;
+            clientFacebookIdErrorFlag = true;
+            clientTwitterIdErrorFlag = true;
+        }
+        
+        function addContactFormResetErrMsgs() {
+            clientFirstNameErrorMsg = "";
+            clientLastNameErrorMsg = "";
+            clientEmailErrorMsg = "";
+            clientMobileErrorMsg = "";
+            clientCategoryErrorMsg = "";
+            clientDesignationErrorMsg = "";
+            clientCityErrorMsg = "";
+            clientStateErrorMsg = "";
+            clientCountryErrorMsg = "";
+            clientAddressErrorMsg = "";
+            clientLinkedInErrorMsg = "";
+            clientFacebookIdErrorMsg = "";
+            clientTwitterIdErrorMsg = "";
+        }
+        
+        function addContactFormResetErrOnForm() {
+            $("#clientFirstName").text("");
+            $("#clientFirstName").val("");
+            $("#clientFirstName").css({"border-color":"#ccc"});
+
+            $("#clientLastName").text("");
+            $("#clientLastName").val("");
+            $("#clientLastName").css({"border-color":"#ccc"});
+        
+            $("#clientEmail").text("");
+            $("#clientEmail").val("");
+            $("#clientEmail").css({"border-color":"#ccc"});
+ 
+            $("#clientMobile").text("");
+            $("#clientMobile").val("");
+            $("#clientMobile").css({"border-color":"#ccc"});
+
+            $("#clientCategory").text("");
+            $("#clientCategory").val("");
+            $("#clientCategory").css({"border-color":"#ccc"});
+
+            $("#clientDesignation").text("");
+            $("#clientDesignation").val("");
+            $("#clientDesignation").css({"border-color":"#ccc"});
+
+            $("#clientCity").text("");
+            $("#clientCity").val("");
+            $("#clientCity").css({"border-color":"#ccc"});
+
+            $("#clientState").text("");
+            $("#clientState").val("");
+            $("#clientState").css({"border-color":"#ccc"});
+
+            $("#clientCountry").text("");
+            $("#clientCountry").val("");
+            $("#clientCountry").css({"border-color":"#ccc"});
+
+            $("#clientAddress").text("");
+            $("#clientAddress").val("");
+            $("#clientAddress").css({"border-color":"#ccc"});
+
+            $("#clientLinkedInid").text("");
+            $("#clientLinkedInid").val("");
+            $("#clientLinkedInid").css({"border-color":"#ccc"});
+
+            
+            $("#clientFacebookid").text("");
+            $("#clientFacebookid").val("");
+            $("#clientFacebookid").css({"border-color":"#ccc"});
+
+            
+            $("#clientTwitterid").text("");
+            $("#clientTwitterid").val("");
+            $("#clientTwitterid").css({"border-color":"#ccc"});
+
+
+        }
 
       
        

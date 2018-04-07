@@ -14,6 +14,7 @@ if($row = mysqli_fetch_object($res))
 {   
    //echo " $CompanyName = $row->companyName";
     //$userEmpId  = $row->user_emp_id;
+    $response->companyId = $row->companyId;
     $response->companyName = $row->companyName;
     $response->companyWebsite = $row->companyWebsite;
     $response->companyEmail = $row->companyEmail;
