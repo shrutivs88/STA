@@ -20,12 +20,15 @@ session_start();
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo BASEURL; ?>assets/css/styles.css" />
     <script src="<?php echo BASEURL; ?>assets/js/jquery.min.js"></script>
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
+    <style>
+     button a{color:white;}
+    </style>
 </head>
 <body>
     <?php include 'navbar.php';?>
     <div class="content-view">
         <div class="container-fluid">
-            
+        <a href="companyclientlist.php"><button class="btn btn-primary"><span class="glyphicon glyphicon-circle-arrow-left"></span></button></a>
             <!-- BDE Access Only -->
             <?php if ($_SESSION['role'] == "BDE") : ?>
                 <div id="bde-container">
@@ -39,7 +42,7 @@ session_start();
 
 
                       echo "<table class='table table-bordered text-center'>";
-                      echo "<tr>";
+                      echo "<tr bgcolor='lightgray'>";
                       echo "<th>First Name </th>";
                       echo "<th>LastName</th>";
                       echo "<th>Email</th>";
@@ -73,7 +76,7 @@ session_start();
                       echo "</table>";
                       ?>
                 </div>
-                <a href="companyclientlist.php"><h3>Back To Company Client List</h3> </a>
+                
             <?php endif; ?>
         </div> 
     </div>

@@ -397,7 +397,7 @@ function loadByLimit(){
                 bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
                 bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
-                bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-primary action-btn' onclick='showClientCompany(" + data[i].clientCompanyId + ")'><span class='glyphicon glyphicon-knight'></span></button></td>'";
+                bdeListBuilder += "<td><button class='btn btn-primary action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-green action-btn' onclick='showClientCompany(" + data[i].clientCompanyId + ")'><span class='glyphicon glyphicon-eye-open'></span></button></td>'";
                 bdeListBuilder += "</tr>";
                 $("#bde-list-table").append(bdeListBuilder);
             }
@@ -432,7 +432,7 @@ function loadByLimit(){
                             <div style="overflow-x:auto;">
                                 <table class="table table-bordered text-center">
                                     <thead class="sta-app-horizontal-table-thead">
-                                        <tr>
+                                        <tr bgcolor="lightgray">
                                             <th>Sl No. </th>
                                             <th>First Name </th>
                                             <th>Last Name </th>
@@ -449,7 +449,8 @@ function loadByLimit(){
                                             <th>Twitter Id </th>
                                             <th>Status </th>
                                             <th>Date And Time </th>
-                                            <th> Actions </th>
+                                            <th>Actions</th>
+                                
                                         </tr>  
                                     </thead>
                                     <tbody  id="bde-list-table"></tbody>
@@ -470,12 +471,12 @@ function loadByLimit(){
 </html>
 <p  data-toggle="modal" data-target="#myModal"></p>
 
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal fade"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header  text-center bg-primary">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Update Client Details</h4>
       </div>
@@ -665,7 +666,7 @@ function loadByLimit(){
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header  text-center  bg-primary">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Client Company Details</h4>
       </div>
@@ -675,23 +676,23 @@ function loadByLimit(){
                         <tr>
                         <th>Company Name : </th>
 <td><input id="companyName" name="companyName" type="text" class="form-control" placeholder="Enter Company Name" readonly></td>
-                        </tr>   <br> 
+                        </tr>   
                         <tr>            
                         <th>Company Website: </th>
 <td><input id="companyWebsite" name="companyWebsite" type="text" class="form-control" placeholder="Enter Website URL" readonly></td>
-                          </tr>    <br>
+                          </tr>    
                           <tr>
                         <th>Company Email id: </th>
 <td><input id="companyEmail" name="companyEmail" class="form-control" type="text" placeholder="Enter Company email-id" readonly></td>
-                             </tr>          <br>
+                             </tr>    
                              <tr>
                         <th>Company Phone: </th>
 <td><input id="companyPhone" name="companyPhone" type="text" class="form-control" placeholder="Enter Company phone number" readonly></td>
-                                   </tr>    <br>
+                                   </tr>  
                                    <tr>
                         <th>Company LinkedIN Id: </th>
 <td><input id="companyLinkedIn" name="companyLinkedIn" type="text" class="form-control" placeholder="Company linked in id" readonly></td>
-                                     </tr> <br>
+                                     </tr> 
                                      <tr>
                         <th>Company Address: </th>
 <td><textarea  id="companyAddress" name="companyAddress" class="form-control" placeholder="Enter Comapny address here" readonly></textarea></td>

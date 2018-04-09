@@ -40,7 +40,7 @@ $userId = $_SESSION["userId"];
             <!-- BDE Access Only -->
             <?php if ($_SESSION['role'] == "BDE") : ?>
                 <div id="bde-container">
-                    <h2 class="text-center">Client Registration Page</h2>
+                    <h2 class="text-center"> Add Client With Company Details</h2>
                     <?php
             
                     if(isset($_SESSION['server-msg']))

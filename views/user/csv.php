@@ -16,23 +16,12 @@ if(!isset($_SESSION["email"])) {
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo BASEURL; ?>assets/css/styles.css" />
     <script src="<?php echo BASEURL; ?>assets/js/jquery.min.js"></script>
     <script src="<?php echo BASEURL; ?>assets/js/bootstrap.min.js"></script>
+    <style> button a{color:white;}</style>
 </head>
 <body>
     <?php include 'navbar.php';?>
     <div class="content-view">
         <div class="container-fluid">
-            <!-- Admin Access Only -->
-            <?php if ($_SESSION['role'] == "ADMIN") : ?>
-                <div id="admin-container">
-                    <h2 class="text-center">Admin</h2>
-                </div>
-            <?php endif; ?>
-            <!-- BDM Access Only -->
-            <?php if ($_SESSION['role'] == "BDM") : ?>
-                <div id="bdm-container">
-                    <h2 class="text-center">BDM</h2>
-                </div>
-            <?php endif; ?>
             <!-- BDE Access Only -->
             <?php if ($_SESSION['role'] == "BDE") : ?>
                 <div id="bde-container">
@@ -80,10 +69,9 @@ if(!isset($_SESSION["email"])) {
                                     <button type="submit" class="btn btn-primary" id="import" name="import"> Upload File </div>
                                     </div>
                                     <div class="form-group">
-                                         <div class="col-md-4 col-md-offset-4">
-                                      
-                                        <a href='../../assets/csv/TemplateFile.csv' download> Download Template</a>
-                                         </div>
+                                        <div class="col-md-4 col-md-offset-4">
+                                          <button class="btn btn-success"><a href='../../assets/csv/TemplateFile.csv' download> Download Template <span class="	glyphicon glyphicon-download-alt"></span></a></button>
+                                        </div>
                                     </div> 
                                 </div>    
                                

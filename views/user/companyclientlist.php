@@ -246,7 +246,7 @@ function showDeleteCompany(companyId){
                                         <div  id="company-bde-list">
                                             <div style="overflow-x:auto;">
                                                 <thead>  
-                                                    <tr>
+                                                    <tr bgcolor="lightgray">
                                                         <th> Sl No. </th>    
                                                         <th>Company Name</th>
                                                         <th>Company Website</th>
