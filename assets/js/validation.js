@@ -369,65 +369,65 @@
 
         function resetInputField(){
             $("#clientFirstName").text("");
-            $("#clientFirstName").val("");
+           // $("#clientFirstName").val("");
             $("#clientFirstName").css({"border-color":"#ccc"});
 
             $("#clientLastName").text("");
-            $("#clientLastName").val("");
+          //  $("#clientLastName").val("");
             $("#clientLastName").css({"border-color":"#ccc"});
             //first email id reset
             $("#clientEmail").text("");
-            $("#clientEmail").val("");
+          //  $("#clientEmail").val("");
             $("#clientEmail").css({"border-color":"#ccc"});
             //second email id reset
             $("#clientEmail2").text("");
-            $("#clientEmail2").val("");
+          //  $("#clientEmail2").val("");
             $("#clientEmail2").css({"border-color":"#ccc"});
             //third email id reset
             $("#clientEmail3").text("");
-            $("#clientEmail3").val("");
+          //  $("#clientEmail3").val("");
             $("#clientEmail3").css({"border-color":"#ccc"});
 
             $("#clientMobile").text("");
-            $("#clientMobile").val("");
+          //  $("#clientMobile").val("");
             $("#clientMobile").css({"border-color":"#ccc"});
 
             $("#clientCategory").text("");
-            $("#clientCategory").val("");
+          //  $("#clientCategory").val("");
             $("#clientCategory").css({"border-color":"#ccc"});
 
             $("#clientDesignation").text("");
-            $("#clientDesignation").val("");
+           // $("#clientDesignation").val("");
             $("#clientDesignation").css({"border-color":"#ccc"});
 
             $("#clientCity").text("");
-            $("#clientCity").val("");
+          //  $("#clientCity").val("");
             $("#clientCity").css({"border-color":"#ccc"});
 
             $("#clientState").text("");
-            $("#clientState").val("");
+          //  $("#clientState").val("");
             $("#clientState").css({"border-color":"#ccc"});
 
             $("#clientCountry").text("");
-            $("#clientCountry").val("");
+          //  $("#clientCountry").val("");
             $("#clientCountry").css({"border-color":"#ccc"});
 
             $("#clientAddress").text("");
-            $("#clientAddress").val("");
+           // $("#clientAddress").val("");
             $("#clientAddress").css({"border-color":"#ccc"});
 
             $("#clientLinkedInid").text("");
-            $("#clientLinkedInid").val("");
+           // $("#clientLinkedInid").val("");
             $("#clientLinkedInid").css({"border-color":"#ccc"});
 
             
             $("#clientFacebookid").text("");
-            $("#clientFacebookid").val("");
+           // $("#clientFacebookid").val("");
             $("#clientFacebookid").css({"border-color":"#ccc"});
 
             
             $("#clientTwitterid").text("");
-            $("#clientTwitterid").val("");
+         //   $("#clientTwitterid").val("");
             $("#clientTwitterid").css({"border-color":"#ccc"});
         }
 
@@ -573,6 +573,8 @@
             //console.log($("#companyNameError"));
             $("#companyLinkedInError").text(companyLinkedInErrorMsg);
         }
+
+
 //this below function is used for the reset for add contact in company Client list 
 
         function addContactFormReset() {

@@ -112,7 +112,7 @@ if($row = mysqli_fetch_object($mang_query)){
    
     //execute query for each loop
     $client_query= mysqli_query($conn,$client_sql);
-
+    $email = array();
    
                                             }
 

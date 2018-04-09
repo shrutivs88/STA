@@ -363,11 +363,11 @@ $userId = $_SESSION["userId"];
             validateCompanyLinkedIn();
             validateCompanyAddress();
 
-            if((companyNameErrorFlag == false)&&(companyWebsiteErrorFlag == false)&&(companyEmailErrorFlag == false)&&(companyPhoneErrorFlag == false)&&(companyLinkedInErrorFlag == false)&&(companyAddressErrorFlag == false))
-            //&&(clientFirstNameErrorFlag == false)&&(clientLastNameErrorFlag==false)&&(clientEmailErrorFlag==false)&&(clientEmailErrorFlag2==false)&&(clientEmailErrorFlag3==false)&&(clientMobileErrorFlag==false)&&
-            //(clientCategoryErrorFlag==false)&&(clientDesignationErrorFlag==false)&&(clientCityErrorFlag==false)&&
-            //(clientStateErrorFlag==false)&&(clientCountryErrorFlag==false)&&(clientAddressErrorFlag==false)&&(clientLinkedInErrorFlag==false)&&(clientFacebookIdErrorFlag==false)&&(clientTwitterIdErrorFlag==false))
-            {    
+            if((companyNameErrorFlag == false) && (companyWebsiteErrorFlag == false) && 
+                (companyEmailErrorFlag == false) && (companyPhoneErrorFlag == false) && 
+                    (companyLinkedInErrorFlag == false) && (companyAddressErrorFlag == false))
+                        {    
+                            /*
             $("#companyName").prop('readonly',true);
             $("#companyWebsite").prop('readonly',true);
             $("#companyEmail").prop('readonly',true);
@@ -388,10 +388,9 @@ $userId = $_SESSION["userId"];
             $("#clientCountry").prop('readonly',true);
             $("#clientLinkedInid").prop('readonly',true);
             $("#clientFacebookid").prop('readonly',true);
-            $("#clientTwitterid").prop('readonly',true);
-            //console.log($("#submitbtn"));
-            $("#submitbtn").attr('onclick','');
-
+            $("#clientTwitterid").prop('readonly',true);*/
+            //$("#submitbtn").attr('onclick','');
+    
                 $.ajax({
                             data: {
                                 userId: <?php echo $userId; ?>,

@@ -39,7 +39,7 @@ if(!isset($_SESSION["email"])) {
             $.ajax({
                     type: "Post",
                     url: "companydatabasepage.php",
-                    data: {
+                    data: { 
                         limitVal: limit,
                         offsetVal: offset,
                             },
@@ -72,6 +72,7 @@ if(!isset($_SESSION["email"])) {
                                     bdeListBuilder += "<td>" + response[i].companyAddress + "</td>";
                                     bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditCompany(" + response[i].companyId + ")'><span class='glyphicon glyphicon-edit'></span></button></td>'";
                                     bdeListBuilder += "<td><button class='btn btn-danger action-btn' onclick='showDeleteCompany(" + response[i].companyId + ")'><span class='glyphicon glyphicon-trash'></span></button></td>'";
+                                    bdeListBuilder += "<td><button class='btn btn-primary action-btn' onclick='showContacts(" + response[i].companyId + ")'><span class='glyphicon glyphicon-pawn'></span></button></td>'";
                                     bdeListBuilder += "</tr>";
                                     $("#companyBde-list").append(bdeListBuilder);
                                     }
@@ -203,6 +204,10 @@ function showDeleteCompany(companyId){
         */
 
     }
+
+    function showContacts(companyId){
+        window.location = 'showContacts.php?companyId=' + companyId;
+    }
  </script>
 </head>
 <body>
@@ -251,6 +256,7 @@ function showDeleteCompany(companyId){
                                                         <th>Company Address</th>
                                                         <th> Edit </th>
                                                         <th> Delete </th>
+                                                        <th> Contacts </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="companyBde-list"></tbody>    
@@ -285,9 +291,6 @@ function showDeleteCompany(companyId){
       <div class="modal-body">
       <!-- modal body starts here -->
         <div id="modal-action-btns"></div>
-    
-       
-
      <table class="table table-bordered" top-margin="5px;"  >
                         <tr>
                         <th>Company Name : </th>
