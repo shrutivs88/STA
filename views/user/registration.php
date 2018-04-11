@@ -45,8 +45,7 @@ $userId = $_SESSION["userId"];
             
                     if(isset($_SESSION['server-msg']))
                     {
-                        echo $_SESSION['server-msg'];
-                      
+                        echo $_SESSION['server-msg'];        
                         unset($_SESSION['server-msg']);
                     }
              

@@ -428,7 +428,7 @@ function loadByLimit(){
                             }
                             ?>
                         </p>
-                        <div  id="bde-list" class="col-md-12">
+                        <div id="bde-list" class="col-md-12 text-center">
                             <div style="overflow-x:auto;">
                                 <table class="table table-bordered text-center">
                                     <thead class="sta-app-horizontal-table-thead">

@@ -68,7 +68,6 @@ if($locationType == "state-all-by-country-id") {
     }
     header('Content-Type: application/json');
     echo json_encode($listOfStatesByCountryId);
-
     exit();
 }
 
@@ -85,7 +84,5 @@ if($locationType == "city-all-by-state-id") {
     exit();
 }
 
-if($locationType == "all-locations") {
 
-}
 ?>

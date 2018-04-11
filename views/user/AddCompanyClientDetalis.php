@@ -153,17 +153,10 @@ function validateContactFields() {
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
                     <h2 class="text-center list-heading" id="client-company-heading">Add Client For <?php echo $companyName; ?></h2>
-                    <div class="server-message" id="server-message">
-                    <?php
-                            if(isset($_SESSION["serverMsg"])) {
-                                echo "<p class='text-center'>" . $_SESSION["serverMsg"] . "</p>";
-                                unset($_SESSION['serverMsg']);
-                            }
-                        ?>
-                    </div>
+                    
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <form id="addContactForm" class="form-horizontal" action="performaddclientcontact.php" method="post">
+                            <form id="addContactForm" class="form-horizontal" action="performaddclientcontact.php?companyId=<?php echo $companyId ?>" method="post">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div id="contact-first-name-div" class="form-group form-group-mod">

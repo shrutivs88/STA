@@ -5,6 +5,7 @@ session_start();
   $conn = $data->getconnection();
 
   $userId = $_SESSION["userId"];
+  $companyId = $_GET['companyId'];
 
   if(function_exists('date_default_timezone_set')) 
   {
@@ -43,9 +44,11 @@ session_start();
   values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCountry','$clientState','$clientCity','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')";
 
   $companyClientquery= mysqli_query($conn,$clientCompanysql);
-  
+
  //header("Location:AddCompanyClientDetalis.php?companyId=".$clientCompanyId."&companyName=".clientCompanyName);
    
   $_SESSION["server-msg"] = "<p class='text-center' style='color:green;'>Client Added Successfully!</p>";
-  header("Location:clientlist.php");
+  //header("Location:clientlist.php");
+  header("Location:showContactsDetails.php?companyId=$companyId");
+
   ?>
