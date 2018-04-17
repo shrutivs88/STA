@@ -6,7 +6,7 @@ session_start();
 
 
   $companyId = $_POST["companyId"];
-$sql ="select * from company_details where companyId='$companyId'";
+$sql ="select * from client_companies where client_company_id='$companyId'";
 
 $res = mysqli_query($conn,$sql);
 $response = new stdClass();
@@ -14,13 +14,13 @@ if($row = mysqli_fetch_object($res))
 {   
    //echo " $CompanyName = $row->companyName";
     //$userEmpId  = $row->user_emp_id;
-    $response->companyId = $row->companyId;
-    $response->companyName = $row->companyName;
-    $response->companyWebsite = $row->companyWebsite;
-    $response->companyEmail = $row->companyEmail;
-    $response->companyPhone = $row->companyPhone;
-    $response->companyLinkedIn = $row->companyLinkedIn;
-    $response->companyAddress = $row->companyAddress;
+    $response->companyId = $row->client_company_id;
+    $response->companyName = $row->client_company_name;
+    $response->companyWebsite = $row->client_company_website;
+    $response->companyEmail = $row->client_company_email;
+    $response->companyPhone = $row->client_company_phone;
+    $response->companyLinkedIn = $row->client_company_linkedin;
+    $response->companyAddress = $row->client_company_address;
    
 }
 

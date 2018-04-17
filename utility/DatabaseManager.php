@@ -10,7 +10,7 @@ class DatabaseManager {
 
     function __construct() {
         $this->connection = false;
-        $this->db_name = 'sales_team_dev_db';
+        $this->db_name = 'sta_integration_db';
         $this->db_user = 'root';
         $this->db_pass = '';
         $this->db_host = 'localhost';

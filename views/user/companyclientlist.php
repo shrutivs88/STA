@@ -64,16 +64,16 @@ if(!isset($_SESSION["email"])) {
                                     var bdeListBuilder = "";
                                     bdeListBuilder += "<tr>";
                                     bdeListBuilder += "<td>"+ parseInt(count+i) +"</td>";
-                                    bdeListBuilder += "<td>" + response[i].companyName + "</td>";
-                                    bdeListBuilder += "<td>" + response[i].companyWebsite + "</td>";
-                                    bdeListBuilder += "<td>" + response[i].companyEmail + "</td>";
-                                    bdeListBuilder += "<td>" + response[i].companyPhone + "</td>";
-                                    bdeListBuilder += "<td>" + response[i].companyLinkedIn + "</td>";
-                                    bdeListBuilder += "<td>" + response[i].companyAddress + "</td>";
-                                    bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditCompany(" + response[i].companyId + ")'><span class='glyphicon glyphicon-edit'></span></button></td>'";
-                                    bdeListBuilder += "<td><button class='btn btn-primary' id='add-btn' onclick=addContentOfClient(" + response[i].companyId + ")><span class='glyphicon glyphicon-plus'></span></button>&nbsp;&nbsp;</td>";
-                                    bdeListBuilder += "<td><button class='btn btn-danger action-btn' onclick='showDeleteCompany(" + response[i].companyId + ")'><span class='glyphicon glyphicon-trash'></span></button></td>'";
-                                    bdeListBuilder += "<td><button class='btn btn-primary action-btn' onclick='showContacts(" + response[i].companyId + ")'><span class='glyphicon glyphicon-pawn'></span></button></td>'";
+                                    bdeListBuilder += "<td>" + response[i].client_company_name + "</td>";
+                                    bdeListBuilder += "<td>" + response[i].client_company_website + "</td>";
+                                    bdeListBuilder += "<td>" + response[i].client_company_email + "</td>";
+                                    bdeListBuilder += "<td>" + response[i].client_company_phone + "</td>";
+                                    bdeListBuilder += "<td>" + response[i].client_company_linkedin + "</td>";
+                                    bdeListBuilder += "<td>" + response[i].client_company_address + "</td>";
+                                    bdeListBuilder += "<td><button class='btn btn-info action-btn' onclick='showEditCompany(" + response[i].client_company_id + ")'><span class='glyphicon glyphicon-edit'></span></button></td>'";
+                                    bdeListBuilder += "<td><button class='btn btn-primary' id='add-btn' onclick=addContentOfClient(" + response[i].client_company_id + ")><span class='glyphicon glyphicon-plus'></span></button>&nbsp;&nbsp;</td>";
+                                    bdeListBuilder += "<td><button class='btn btn-danger action-btn' onclick='showDeleteCompany(" + response[i].client_company_id + ")'><span class='glyphicon glyphicon-trash'></span></button></td>'";
+                                    bdeListBuilder += "<td><button class='btn btn-primary action-btn' onclick='showContacts(" + response[i].client_company_id + ")'><span class='glyphicon glyphicon-pawn'></span></button></td>'";
                                     bdeListBuilder += "</tr>";
                                     $("#companyBde-list").append(bdeListBuilder);
                                     }
@@ -87,14 +87,14 @@ if(!isset($_SESSION["email"])) {
         }//end of the function  
 
 //showing company list in modal with addcontact and edit company btns
-        function showEditCompany(companyId) {
+        function showEditCompany(client_company_id) {
         $("#myModalCompany").modal('toggle');
         //alert(companyId);
         $.ajax({
                 type: "post",
                 url:"showCompany.php",
                 data: {
-                    companyId:companyId
+                    companyId:client_company_id
                 },
                 success: function(companyresult){
                   //  console.log(companyresult);
@@ -127,14 +127,14 @@ if(!isset($_SESSION["email"])) {
     }
 
 //Delete company 
-function showDeleteCompany(companyId){
+function showDeleteCompany(client_company_id){
         var result = confirm("Are You Sure?");
         if(result) {
             $.ajax({
                 type: "POST",
                 url: "performdeletecompany.php",
                 data: {
-                    companyId: companyId
+                    companyId:client_company_id
                 },
                 success: function(response) {
                     window.location.reload();
@@ -144,13 +144,13 @@ function showDeleteCompany(companyId){
     }
 
 //adding contact person for particular company
-   function addContentOfClient(companyId)
+   function addContentOfClient(client_company_id)
     {
-        window.location = 'AddCompanyClientDetalis.php?companyId=' + companyId + '&companyName=' + companyName;
+        window.location = 'AddCompanyClientDetalis.php?companyId=' + client_company_id;
     }
 
 //editing company details which is in modal
-    function editCompany(companyId){
+    function editCompany(client_company_id){
       // alert("okay");
        $("#companyName").prop("readonly", "");
        $("#companyWebsite").prop("readonly", "");
@@ -163,13 +163,13 @@ function showDeleteCompany(companyId){
             $("#save-btn").show();
     }
 
-   function saveCompany(companyId){
+   function saveCompany(client_company_id){
        //alert("okay");
        $.ajax({
                 type: "Post",
                 url: "companyupdatedatabase.php",
                 data: {
-                    companyId:companyId,
+                    companyId:client_company_id,
                     companyName:$("#companyName").val(),
                     companyWebsite:$("#companyWebsite").val(),
                     companyEmail:$("#companyEmail").val(),
@@ -188,8 +188,8 @@ function showDeleteCompany(companyId){
     }
 
 //showing contact from company details
-    function showContacts(companyId){
-        window.location = 'showContactsDetails.php?companyId=' + companyId;
+    function showContacts(client_company_id){
+        window.location = 'showContactsDetails.php?companyId=' + client_company_id;
     }      
  </script>
 </head>
@@ -202,7 +202,15 @@ function showDeleteCompany(companyId){
                 <div id="bde-container">
                     <div class="row">
                         <div class="col-sm-10 col-sm-offset-1">
-                            <h2 class="text-center">Client Company List </h2>
+                            <h2 class="text-center">Company List </h2>
+                            <?php
+                            if(isset($_SESSION["serverMsg"])) 
+                            {
+                                echo $_SESSION["serverMsg"];
+                                
+                                unset($_SESSION["serverMsg"]);
+                            }
+                            ?>
                                 <table class="table table-bordered  text-center" >
                                         <div  id="company-bde-list">
                                             <div style="overflow-x:auto;">
@@ -247,6 +255,7 @@ function showDeleteCompany(companyId){
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title text-center">Add Client Company Details</h4>
       </div>
       <div class="modal-body">

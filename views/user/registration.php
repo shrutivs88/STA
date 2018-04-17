@@ -25,32 +25,19 @@ $userId = $_SESSION["userId"];
     <?php include 'navbar.php';?>
     <div class="content-view">
         <div class="container-fluid">
-            <!-- Admin Access Only -->
-            <?php if ($_SESSION['role'] == "ADMIN") : ?>
-                <div id="admin-container">
-                    <h2 class="text-center">Admin</h2>
-                </div>
-            <?php endif; ?>
-            <!-- BDM Access Only -->
-            <?php if ($_SESSION['role'] == "BDM") : ?>
-                <div id="bdm-container">
-                    <h2 class="text-center">BDM</h2>
-                </div>
-            <?php endif; ?>
             <!-- BDE Access Only -->
             <?php if ($_SESSION['role'] == "BDE") : ?>
                 <div id="bde-container">
-                    <h2 class="text-center"> Add Client With Company Details</h2>
-                    <?php
-            
-                    if(isset($_SESSION['server-msg']))
-                    {
-                        echo $_SESSION['server-msg'];        
-                        unset($_SESSION['server-msg']);
-                    }
-             
-            ?>
-          <br><br>          
+                    <h2 class="text-center"> Add Client</h2>
+                     <?php
+                            if(isset($_SESSION["server-msg"])) 
+                            {
+                                echo $_SESSION["server-msg"];
+                                
+                                unset($_SESSION["server-msg"]);
+                            }
+                            ?>
+          <br><br>        
         <form action="#" id="form1">
                     
             <div class="col-sm-6 col-sm-offset-3">

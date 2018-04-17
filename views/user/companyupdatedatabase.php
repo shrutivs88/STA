@@ -12,7 +12,7 @@ $companyPhone=$_POST['companyPhone'];
 $companyLinkedIn=$_POST['companyLinkedIn'];
 $companyAddress=$_POST['companyAddress'];
 
-$sql ="update company_details set companyName='$companyName', companyWebsite='$companyWebsite', companyEmail='$companyEmail', companyPhone='$companyPhone', companyLinkedIn='$companyLinkedIn',companyAddress='$companyAddress' where companyId='$companyId'";
+$sql ="update client_companies set client_company_name='$companyName',client_company_website='$companyWebsite', client_company_email='$companyEmail',client_company_phone='$companyPhone',client_company_linkedin='$companyLinkedIn',client_company_address='$companyAddress' where client_company_id='$companyId'";
 mysqli_query($conn, $sql);
 exit();
 

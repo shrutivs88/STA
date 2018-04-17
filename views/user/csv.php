@@ -52,12 +52,12 @@ if(!isset($_SESSION["email"])) {
                                       $data = new DatabaseManager();
                                       $conn = $data->getconnection();    
 
-                                    $sql = "select * from company_details";
+                                    $sql = "select * from client_companies";
                                     $res= mysqli_query($conn,$sql);
 
                                     while($row =mysqli_fetch_object($res)){
                                             ?>
-                                            <option value="<?php echo $row->companyId ?>"><?php echo $row->companyName ?></option>
+                                            <option value="<?php echo $row->client_company_id ?>"><?php echo $row->client_company_name ?></option>
                                             <?php
 
                                     }
@@ -70,7 +70,8 @@ if(!isset($_SESSION["email"])) {
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4 col-md-offset-4">
-                                          <button class="btn btn-success"><a href='../../assets/csv/TemplateFile.csv' download> Download Template <span class="	glyphicon glyphicon-download-alt"></span></a></button>
+                                          <!--<button type="button" class="btn btn-success"><a href='../../assets/csv/TemplateFile.csv' download> Download Template <span class="glyphicon glyphicon-download-alt"></span></a></button>-->
+                                          <a href='../../assets/csv/TemplateFile.csv' download> Download Template <span class="glyphicon glyphicon-download-alt"></span></a>
                                         </div>
                                     </div> 
                                 </div>    

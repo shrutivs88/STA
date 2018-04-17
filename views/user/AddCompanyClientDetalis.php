@@ -11,10 +11,12 @@ $conn = $data->getconnection();
 $companyId = $_GET['companyId'];
 //$comapnyName = $_GET['companyName'];
 
-$companyNameSql = "select companyName from company_details where companyId='$companyId'";
+$companyNameSql = "select client_company_name from client_companies where client_company_id='$companyId' ";
 $result = mysqli_query($conn,$companyNameSql);
 while($row = mysqli_fetch_object($result)){
-    $companyName  = $row->companyName;
+  // var_dump($row);
+   //die;
+    $client_company_name  = $row->client_company_name;
 }
 ?>
 <!DOCTYPE html>
@@ -89,7 +91,7 @@ function validateContactFields() {
             type: "post",
             url: "locationDetails.php",
             data: {
-                countryId: countryId,
+                country_id:countryId,
                 locationType: "state-all-by-country-id"
             },
             success: function(response) {
@@ -109,7 +111,7 @@ function validateContactFields() {
             type: "post",
             url: "locationDetails.php",
             data: {
-                stateId: stateId,
+                state_id: stateId,
                 locationType: "city-all-by-state-id"
             },
             success: function(response) {
@@ -152,12 +154,12 @@ function validateContactFields() {
             <div class="row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
-                    <h2 class="text-center list-heading" id="client-company-heading">Add Client For <?php echo $companyName; ?></h2>
+                    <h2 class="text-center list-heading" id="client-company-heading">Add Client For "<?php echo $client_company_name; ?>"</h2>
                     
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
                             <form id="addContactForm" class="form-horizontal" action="performaddclientcontact.php?companyId=<?php echo $companyId ?>" method="post">
-                                <div class="row">
+                               <br> <div class="row">
                                     <div class="col-sm-6">
                                         <div id="contact-first-name-div" class="form-group form-group-mod">
                                             <label class="control-label col-sm-3">First Name</label>
@@ -298,7 +300,7 @@ function validateContactFields() {
                                     </div>
                                 </div>
                                 <input type="hidden" name="companyId" value="<?php echo $companyId; ?>">
-                                <input type="hidden" name="companyName" value="<?php echo $companyName; ?>">
+                                <input type="hidden" name="companyName" value="<?php echo $client_company_name; ?>">
                                 <div class="row text-center form-group-mod">
                                     <button id="contactSuccessBtn" type="button" class="btn btn-primary form-btn btn-identical-dimension" onclick="saveContactForm()">Save</button>
                                     <button id="contactFailBtn" type="button" class="btn btn-danger form-btn btn-identical-dimension" onclick="addContactFormReset()">Reset</button>

@@ -37,21 +37,21 @@ if(!isset($_SESSION["email"])) {
                 companyId:<?php echo $_GET["companyId"] ?>
             },
             success:function(response) {
-               // console.log(response);
+               //console.log(response);
                 for(var i=0; i<response.length; i++) { 
                         var bdeListBuilder = "";
                         bdeListBuilder += "<tr>";
                         bdeListBuilder += "<td>"+ parseInt(count+i) +"</td>";
-                        bdeListBuilder += "<td>" + response[i].clientFirstName + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientLastName + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientEmail + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientMobile + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientCategory + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientDesignation + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientAddress + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_first_name + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_last_name + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_email + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_mobile + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_category + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_designation + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_address + "</td>";
                         var isCountrySet = false;
                         jQuery.each( countries, function( index, value ) {
-                        if(value.country_id == response[i].clientCountry) {
+                        if(value.country_id == response[i].country_id) {
                         bdeListBuilder += "<td>" + value.country_name + "</td>";
                         isCountrySet = true;
                         return;
@@ -62,7 +62,7 @@ if(!isset($_SESSION["email"])) {
                         }
                         var isStateSet = false;
                         jQuery.each( states, function( index, value ) {
-                        if(value.state_id == response[i].clientState) {
+                        if(value.state_id == response[i].state_id) {
                         bdeListBuilder += "<td>" + value.state_name + "</td>";
                         isStateSet = true;
                         return;
@@ -73,7 +73,7 @@ if(!isset($_SESSION["email"])) {
                         }
                         var isCitySet = false;
                         jQuery.each( cities, function( index, value ) {
-                        if(value.city_id == response[i].clientCity) {
+                        if(value.city_id == response[i].city_id) {
                         bdeListBuilder += "<td>" + value.city_name + "</td>";
                         isCitySet = true;
                         return;
@@ -82,9 +82,9 @@ if(!isset($_SESSION["email"])) {
                         if(!isCitySet) {
                         bdeListBuilder += "<td>-</td>";
                         }
-                        bdeListBuilder += "<td>" + response[i].clientLinkedInId + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientFacebookId + "</td>";
-                        bdeListBuilder += "<td>" + response[i].clientTwitterId + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_linkedin + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_facebook + "</td>";
+                        bdeListBuilder += "<td>" + response[i].client_contact_twitter + "</td>";
                         bdeListBuilder += "</tr>";
                         $("#bde-list-table").append(bdeListBuilder);
                     } 

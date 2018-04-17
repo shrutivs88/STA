@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="app-header-collape">
             <ul class="nav navbar-nav">
                 <li><a href="home.php">Home</a></li>
-                <li><a href="companyclientlist.php">Company Client List</a></li>
+                <li><a href="companyclientlist.php">Company List</a></li>
                 <!-- Admin Access Only -->
                 <?php if ($_SESSION['role'] == "ADMIN") : ?>
                 <li class="dropdown">

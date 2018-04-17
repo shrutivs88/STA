@@ -21,7 +21,7 @@ $clientTwitterId = $_POST['clientTwitterId'];
 //$clientCompanyId = $_POST['clientCompanyId'];
 //$clientDateTime = $_POST['clientDateTime'];
 
-$sql = "update client_details set clientFirstName='$clientFirstName',clientLastName='$clientLastName',clientEmail='$clientEmail',clientMobile='$clientMobile',clientCategory='$clientCategory',clientDesignation='$clientDesignation',clientAddress='$clientAddress',clientCity='$clientCity',clientState ='$clientState',clientCountry='$clientCountry',clientLinkedInId='$clientLinkedInId',clientFacebookId='$clientFacebookId',clientTwitterId='$clientTwitterId' where clientId='$clientId'";
+$sql = "update client_contacts set client_contact_first_name='$clientFirstName',client_contact_last_name='$clientLastName',client_contact_email='$clientEmail',client_contact_mobile='$clientMobile',client_contact_category='$clientCategory',client_contact_designation='$clientDesignation',client_contact_address='$clientAddress',city_id='$clientCity',state_id ='$clientState',country_id='$clientCountry',client_contact_linkedin='$clientLinkedInId',client_contact_facebook='$clientFacebookId',client_contact_twitter='$clientTwitterId' where client_contact_id='$clientId'";
 
 
 $result = mysqli_query($conn,$sql);

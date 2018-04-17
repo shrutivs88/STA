@@ -7,13 +7,16 @@ include '../../utility/DatabaseManager.php';
 
 $companyId = $_POST['companyId'];
 
-$sql ="delete from company_details where companyId='$companyId'";
-
+$sql ="delete from client_companies where client_company_id='$companyId'";
+$clientSql = "delete from client_contacts where client_company_id='$companyId'";
 $res = mysqli_query($conn,$sql);
+ mysqli_query($conn,$clientSql);
 
-
-    $_SESSION['serverMsg'] = "Company was not deleted!";
+ if($res==true){
+ $_SESSION['serverMsg'] = "<p class='text-center' style='color:green;'>Company and it's associated contacts are deleted Successfully!</p>";
+ }else{
+    $_SESSION['serverMsg'] = "<p class='text-center' style='color:red;'>Company and it's associated contacts are not deleted!</p>";
     return;
+ }
 
-$_SESSION['serverMsg'] = "Company and it's associated contact was deleted Successfully!";
 ?>

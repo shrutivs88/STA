@@ -8,7 +8,7 @@ session_start();
   
   $companyId = $_POST['companyId'];
   
-  $contactSql = "SELECT * FROM client_details  where clientCompanyId='$companyId'";
+  $contactSql = "SELECT * FROM client_contacts  where  client_company_id='$companyId'";
   
   $result = mysqli_query($conn,$contactSql); 
   //print_r ($result); 

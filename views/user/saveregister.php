@@ -31,19 +31,19 @@ if($companyName == "" || $companyWebsite =="" || $companyEmail == "" || $company
 }
 else{
   $_SESSION['server-msg'] = "<p class='text-center' style='color:red;> Enter the information </p>";
-  $table_lock_sql = "lock tables company_details write";
+  $table_lock_sql = "lock tables client_companies write";
   $res= mysqli_query($conn,$table_lock_sql);
 
 //if this check fails echo company website already added
 
-$company_sql =  "insert into company_details(companyName,companyWebsite,companyEmail,companyPhone,companyLinkedIn,companyAddress) 
-             values('$companyName','$companyWebsite','$companyEmail','$companyPhone','$companyLinkedIn','$companyAddress')";
+$company_sql =  "insert into client_companies(client_company_name,client_company_website,client_company_address,client_company_phone,client_company_email,client_company_linkedin) 
+             values('$companyName','$companyWebsite','$companyAddress','$companyPhone','$companyEmail','$companyLinkedIn')";
 $res= mysqli_query($conn,$company_sql);
 
-$company_max_id= "select max(companyId) from company_details";
+$company_max_id= "select max(client_company_id) from client_companies";
 
 $query = mysqli_query($conn,$company_max_id);
-$max_id = $query->fetch_assoc()['max(companyId)'];
+$max_id = $query->fetch_assoc()['max(client_company_id)'];
 
 $table_unlock_sql="unlock tables";
 $res= mysqli_query($conn,$table_unlock_sql);
@@ -106,7 +106,7 @@ if($row = mysqli_fetch_object($mang_query)){
 
 
     //check if client email already exits with same company id
-    $client_sql = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCountry,clientState,clientCity,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)
+    $client_sql = "insert into client_contacts(client_contact_first_name,client_contact_last_name,client_contact_email,client_contact_mobile,client_contact_category,client_contact_designation,client_contact_address,country_id,state_id,city_id,client_contact_linkedin,client_contact_facebook,client_contact_twitter,client_company_id,client_contact_status,client_contact_added,assoc_manager_id,assoc_user_id)
     values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCountry','$clientState','$clientCity','$clientLinkedInid','$clientFacebookid','$clientTwitterid','$max_id','New','$php_timestamp_date','$userManagerId','$userEmpId')";
     
    
@@ -116,7 +116,7 @@ if($row = mysqli_fetch_object($mang_query)){
    
                                             }
 
-  $_SESSION["server-msg"] = "<p class='text-center' style='color:red;'>Client Added Successfully!</p>";
+  $_SESSION["server-msg"] = "<p class='text-center' style='color:green;'>Client Added Successfully!</p>";
    
                             }
 

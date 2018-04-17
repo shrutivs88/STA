@@ -24,7 +24,7 @@ session_start();
                 if($_FILES['file']['name']=="")
                 {
                     $_SESSION["server-msg"] = "<p class='text-center'style='color:red;'> Please Upload File !</p>";
-                    error();
+               
                 }        
         $csvCheck =  array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
 
@@ -64,8 +64,7 @@ session_start();
                         $clientCity = $city_row->city_id;
                     }
                 }
-                
-                
+            
                 $clientFirstName = $data[0];
                 $clientLastName = $data[1];
                 $clientEmail = $data[2];
@@ -79,39 +78,20 @@ session_start();
                 $clientCompanyId = $companyId;
                 $userManagerId =  $userManagerId; 
               
-          $sql_csv = "insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')"; 
+          $sql_csv = "insert into client_contacts(client_contact_first_name,client_contact_last_name,client_contact_email,client_contact_mobile,client_contact_category,client_contact_designation,client_contact_address,city_id,state_id,country_id,client_contact_linkedin,client_contact_facebook,client_contact_twitter,client_company_id,client_contact_status,client_contact_added,assoc_manager_id,assoc_user_id)values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')"; 
           $db = mysqli_query($conn,$sql_csv);
                 header("Location:clientlist.php");
             }
-        }     
-         //  $prevSql = "select clientId from client_details where clientEmail ='$clientEmail'";  
-
-                 // $prevRes = mysqli_query($conn,$prevSql);
-                 // $prevResult = mysqli_num_rows($prevRes);
-              //  if($prevResult==true){
-                   //  var_dump($prevRes);
-                    //  die;
-                   // $d1="update client_details set clientFirstName ='$clientFirstName', clientLastName ='$clientLastName',clientEmail ='$clientEmail', clientMobile ='$clientMobile',clientCategory ='$clientCategory',clientDesignation ='$clientDesignation',clientAddress ='$clientAddress',clientCity ='$clientCity',clientState ='$clientState',clientCountry ='$clientCountry',clientLinkedInId ='$clientLinkedInId',clientFacebookId ='$clientFacebookId',clientTwitterId ='$clientTwitterId',clientCompanyId ='$clientCompanyId',clientStatus ='New',clientDateTime='$php_timestamp_date',user_manager_id='$userManagerId',bde_user_id='$userEmpId' where clientEmail ='$clientEmail' ";
-                    // $d2 = mysqli_query($conn,$d1);
-
-                  //}else{
-                  //   $d3="insert into client_details(clientFirstName,clientLastName,clientEmail,clientMobile,clientCategory,clientDesignation,clientAddress,clientCity,clientState,clientCountry,clientLinkedInId,clientFacebookId,clientTwitterId,clientCompanyId,clientStatus,clientDateTime,user_manager_id,bde_user_id)values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')";
-                  //   $d4 = mysqli_query($conn,$d3);
-
-                 // }
+            $_SESSION["server-msg"] ="<p class='text-center' style='color:green;'> File Uploaded Successffuly!</p>";
+        }else{
+            $_SESSION["server-msg"] ="<p class='text-center'style='color:red;'> Please Upload CSV file Only!</p>";
+            error();   
+        }  
         
-             // $_SESSION["server-msg"] ="<p class='text-center' style='color:green;'> File Uploaded Successffuly!</p>";
-             // error();               
-
-        //}else{
-           // $_SESSION["server-msg"] ="<p class='text-center'style='color:red;'> Please Upload CSV file Only!</p>";
-          //  error();
-      //  }
-    
-       // function error(){
-           // fclose($csvFile);
-           // header("Location:csv.php"); 
-           // exit(0);
-       
+       function error(){
+            fclose($csvFile);
+            header("Location:csv.php"); 
+           exit(0);
+       }
        
  ?>

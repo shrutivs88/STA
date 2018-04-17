@@ -144,28 +144,28 @@ if(!isset($_SESSION["email"])) {
         $("#myModal").modal();
         data = "";
         $.each(responseData, function( key, value ) {
-            if(value.clientId == clientId) {
-                data = value;
-                setModalFields(data);
+           if(value.client_contact_id == clientId) {
+               data = value;
+               setModalFields(data);
                 return;
-            }
+             }
         });
     }
 
     function setModalFields(data) {
-        $("#clientId").val(data.clientId);
-        $("#clientFirstName").val(data.clientFirstName);
-        $("#clientLastName").val(data.clientLastName);
-        $("#clientEmail").val(data.clientEmail);
-        $("#clientMobile").val(data.clientMobile);
-        $("#clientCategory").val(data.clientCategory);
-        $("#clientDesignation").val(data.clientDesignation);
-        $("#clientAddress").val(data.clientAddress);
-        $("#clientLinkedInId").val(data.clientLinkedInId);
-        $("#clientFacebookId").val(data.clientFacebookId);
-        $("#clientTwitterId").val(data.clientTwitterId);
-        $("#clientCompanyId").val(data.clientCompanyId);
-        $("#clientDateTime").val(data.clientDateTime);
+        $("#clientId").val(data.client_contact_id);
+        $("#clientFirstName").val(data.client_contact_first_name);
+        $("#clientLastName").val(data.client_contact_last_name);
+        $("#clientEmail").val(data.client_contact_email);
+        $("#clientMobile").val(data.client_contact_mobile);
+        $("#clientCategory").val(data.client_contact_category);
+        $("#clientDesignation").val(data.client_contact_designation);
+        $("#clientAddress").val(data.client_contact_address);
+        $("#clientLinkedInId").val(data.client_contact_linkedin);
+        $("#clientFacebookId").val(data.client_contact_facebook);
+        $("#clientTwitterId").val(data.client_contact_twitter);
+        $("#clientCompanyId").val(data.client_company_id);
+        $("#clientDateTime").val(data.client_contact_added);
         loadCountriesJsonAndSetCountry(data);
         
     }
@@ -185,8 +185,8 @@ if(!isset($_SESSION["email"])) {
                             optionsCountry += "</option>";
                         }
                         $("#clientCountry").html(optionsCountry);
-                        $("#clientCountry").val(data.clientCountry);
-                        if(data.clientCountry == 0) {
+                        $("#clientCountry").val(data.country_id);
+                        if(data.country_id== 0) {
                             $("#clientCountry").val("");
                         }
                         loadStatesJsonAndSetState(data);
@@ -199,7 +199,7 @@ if(!isset($_SESSION["email"])) {
             type: "post",
             url: "locationDetails.php",
             data: {
-                countryId: data.clientCountry,
+                country_id: data.country_id,
                 locationType: "state-all-by-country-id"
             },
             success: function(response) {
@@ -210,8 +210,8 @@ if(!isset($_SESSION["email"])) {
                             optionsStates += "</option>";
                         }
                         $("#clientState").html(optionsStates);
-                        $("#clientState").val(data.clientState);
-                        if(data.clientState == 0) {
+                        $("#clientState").val(data.state_id);
+                        if(data.state_id== 0) {
                             $("#clientState").val("");
                         }
                         loadCitiesJsonAndSetCity(data);
@@ -224,7 +224,7 @@ if(!isset($_SESSION["email"])) {
             type: "post",
             url: "locationDetails.php",
             data: {
-                stateId: data.clientState,
+                state_id: data.state_id,
                 locationType: "city-all-by-state-id"
             },
             success: function(response) {
@@ -235,13 +235,14 @@ if(!isset($_SESSION["email"])) {
                             optionsCities += "</option>";
                         }
                         $("#clientCity").html(optionsCities);
-                        $("#clientCity").val(data.clientCity);
-                        if(data.clientCity == 0) {
+                        $("#clientCity").val(data.city_id);
+                        if(data.city_id == 0) {
                             $("#clientCity").val("");
                         }
             }
         });
     }
+
 
     /**
     Backend call to save data */
@@ -352,16 +353,16 @@ function loadByLimit(){
                 //bdeListBuilder += "<td>" + data[i].clientId + "</td>";
                // bdeListBuilder += "<td>"+ parseInt(i+1) +"</td>";
                 bdeListBuilder += "<td>"+ parseInt(count+i) +"</td>";
-                bdeListBuilder += "<td>" + data[i].clientFirstName + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientLastName + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientEmail + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientMobile + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientCategory + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientDesignation + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientAddress + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_first_name + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_last_name + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_email + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_mobile + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_category + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_designation + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_address + "</td>";
                 var isCountrySet = false;
                 jQuery.each( countries, function( index, value ) {
-                    if(value.country_id == data[i].clientCountry) {
+                    if(value.country_id == data[i].country_id) {
                         bdeListBuilder += "<td>" + value.country_name + "</td>";
                         isCountrySet = true;
                         return;
@@ -372,7 +373,7 @@ function loadByLimit(){
                 }
                 var isStateSet = false;
                 jQuery.each( states, function( index, value ) {
-                    if(value.state_id == data[i].clientState) {
+                    if(value.state_id == data[i].state_id) {
                         bdeListBuilder += "<td>" + value.state_name + "</td>";
                         isStateSet = true;
                         return;
@@ -383,7 +384,7 @@ function loadByLimit(){
                 }
                 var isCitySet = false;
                 jQuery.each( cities, function( index, value ) {
-                    if(value.city_id == data[i].clientCity) {
+                    if(value.city_id == data[i].city_id) {
                         bdeListBuilder += "<td>" + value.city_name + "</td>";
                         isCitySet = true;
                         return;
@@ -392,12 +393,12 @@ function loadByLimit(){
                 if(!isCitySet) {
                     bdeListBuilder += "<td>-</td>";
                 }
-                bdeListBuilder += "<td>" + data[i].clientLinkedInId + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientFacebookId + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientTwitterId + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientStatus + "</td>";
-                bdeListBuilder += "<td>" + data[i].clientDateTime + "</td>";
-                bdeListBuilder += "<td><button class='btn btn-primary action-btn' onclick='showEditClient(" + data[i].clientId + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-green action-btn' onclick='showClientCompany(" + data[i].clientCompanyId + ")'><span class='glyphicon glyphicon-eye-open'></span></button></td>'";
+                bdeListBuilder += "<td>" + data[i].client_contact_linkedin  + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_facebook + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_twitter + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_status + "</td>";
+                bdeListBuilder += "<td>" + data[i].client_contact_added + "</td>";
+                bdeListBuilder += "<td><button class='btn btn-primary action-btn' onclick='showEditClient(" + data[i].client_contact_id + ")'><span class='glyphicon glyphicon-edit'></span></button><button class='btn btn-green action-btn' onclick='showClientCompany(" + data[i].client_company_id + ")'><span class='glyphicon glyphicon-eye-open'></span></button></td>'";
                 bdeListBuilder += "</tr>";
                 $("#bde-list-table").append(bdeListBuilder);
             }

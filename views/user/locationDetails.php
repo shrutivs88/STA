@@ -60,8 +60,8 @@ if($locationType == "city-all") {
 
 if($locationType == "state-all-by-country-id") {
     $listOfStatesByCountryId = array(); 
-    $countryId = $_POST["countryId"];
-    $state_sql = "select * from states where country_id='$countryId'";
+    $country_id = $_POST["country_id"];
+    $state_sql = "select * from states where country_id='$country_id'";
     $res = mysqli_query($conn,$state_sql);
     while($row = mysqli_fetch_assoc($res)){
          array_push($listOfStatesByCountryId, $row);
@@ -73,8 +73,8 @@ if($locationType == "state-all-by-country-id") {
 
 if($locationType == "city-all-by-state-id") {
     $listOfCityByStateId = array(); 
-    $stateId = $_POST["stateId"];
-    $city_sql = "select * from cities where state_id='$stateId'";
+    $state_id = $_POST["state_id"];
+    $city_sql = "select * from cities where state_id='$state_id'";
     $res = mysqli_query($conn,$city_sql);
     while($row = mysqli_fetch_assoc($res)){
         array_push($listOfCityByStateId, $row);
