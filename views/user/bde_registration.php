@@ -390,7 +390,7 @@ $userId = $_SESSION["userId"];
                                 clientDetails: clients
         
                             },
-                            url: 'saveregister.php',
+                            url: 'bde_saveregister.php',
                             method: 'POST', 
                             success: function(response) {
                            // alert("successs");

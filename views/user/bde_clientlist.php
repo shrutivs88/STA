@@ -250,7 +250,7 @@ if(!isset($_SESSION["email"])) {
         $("#myModal").modal('toggle');
         $.ajax({
             type: "post",
-            url: "editclientcontact.php",
+            url: "bde_editclientcontact.php",
             data: {
                 clientId: $("#clientId").val(),
                 clientFirstName: $("#clientFirstName").val(),
@@ -276,7 +276,7 @@ if(!isset($_SESSION["email"])) {
         });
     }
 
-    function deleteClient(clientId) {
+   /* function deleteClient(clientId) {
         $.ajax({
             type: "post",
             url: "deleteclientcontact.php",
@@ -287,14 +287,13 @@ if(!isset($_SESSION["email"])) {
                 window.location.reload();
             }
         });
-    }
-
+    }*/
     function showClientCompany(companyId) {
         //window.location.href="showCompany.php?companyId="+companyId;
         $("#myModalCompany").modal('toggle');
         $.ajax({
                 type: "post",
-                url:"showCompany.php",
+                url:"bde_showcompany.php",
                 data: {
                     companyId:companyId
                     
@@ -323,7 +322,7 @@ function loadByLimit(){
     $("#ajaxButton").prop("disabled", "true");
     $.ajax({
         type: "Post",
-        url: "clientdatabasepage.php",
+        url: "bde_clientdatabasepage.php",
         data: {
             limitVal: limit,
             offsetVal: offset,

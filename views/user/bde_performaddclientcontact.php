@@ -49,6 +49,6 @@ session_start();
    
   $_SESSION["server-msg"] = "<p class='text-center' style='color:green;'>Client Added Successfully!</p>";
   //header("Location:clientlist.php");
-  header("Location:showContactsDetails.php?companyId=$companyId");
+  header("Location:bde_showcontactsdetails.php?companyId=$companyId");
 
   ?>

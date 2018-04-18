@@ -32,7 +32,7 @@ if(!isset($_SESSION["email"])) {
         initCitiesChainingEffect();
         $.ajax({
             type: "Post",
-            url: "showContacts.php",
+            url: "bde_showcontacts.php",
             data: {
                 companyId:<?php echo $_GET["companyId"] ?>
             },
@@ -153,7 +153,7 @@ if(!isset($_SESSION["email"])) {
                 <div id="bde-container">
                     <h2 class="text-center"> Contacts List</h2>
                          <!--here the contact list will start showing-->
-                       <a href="companyclientlist.php"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-chevron-left"></span>Go Back </button></a>
+                       <a href="bde_companyclientlist.php"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-chevron-left"></span>Go Back </button></a>
                        <br><br>
                             <div id="bde-list" class="col-sm-12">
                                 <table class="table table-bordered text-center">

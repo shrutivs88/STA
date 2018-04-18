@@ -158,7 +158,7 @@ function validateContactFields() {
                     
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <form id="addContactForm" class="form-horizontal" action="performaddclientcontact.php?companyId=<?php echo $companyId ?>" method="post">
+                            <form id="addContactForm" class="form-horizontal" action="bde_performaddclientcontact.php?companyId=<?php echo $companyId ?>" method="post">
                                <br> <div class="row">
                                     <div class="col-sm-6">
                                         <div id="contact-first-name-div" class="form-group form-group-mod">

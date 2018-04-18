@@ -38,7 +38,7 @@ if(!isset($_SESSION["email"])) {
             $("#ajaxButton").prop("disabled", "true");
             $.ajax({
                     type: "Post",
-                    url: "companydatabasepage.php",
+                    url: "bde_companydatabasepage.php",
                     data: { 
                         limitVal: limit,
                         offsetVal: offset,
@@ -92,7 +92,7 @@ if(!isset($_SESSION["email"])) {
         //alert(companyId);
         $.ajax({
                 type: "post",
-                url:"showCompany.php",
+                url:"bde_showcompany.php",
                 data: {
                     companyId:client_company_id
                 },
@@ -132,7 +132,7 @@ function showDeleteCompany(client_company_id){
         if(result) {
             $.ajax({
                 type: "POST",
-                url: "performdeletecompany.php",
+                url: "bde_performdeletecompany.php",
                 data: {
                     companyId:client_company_id
                 },
@@ -146,7 +146,7 @@ function showDeleteCompany(client_company_id){
 //adding contact person for particular company
    function addContentOfClient(client_company_id)
     {
-        window.location = 'AddCompanyClientDetalis.php?companyId=' + client_company_id;
+        window.location = 'bde_addcompanyclientdetails.php?companyId=' + client_company_id;
     }
 
 //editing company details which is in modal
@@ -167,7 +167,7 @@ function showDeleteCompany(client_company_id){
        //alert("okay");
        $.ajax({
                 type: "Post",
-                url: "companyupdatedatabase.php",
+                url: "bde_companyupdatedatabase.php",
                 data: {
                     companyId:client_company_id,
                     companyName:$("#companyName").val(),
@@ -189,7 +189,7 @@ function showDeleteCompany(client_company_id){
 
 //showing contact from company details
     function showContacts(client_company_id){
-        window.location = 'showContactsDetails.php?companyId=' + client_company_id;
+        window.location = 'bde_showcontactsdetails.php?companyId=' + client_company_id;
     }      
  </script>
 </head>

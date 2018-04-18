@@ -80,7 +80,7 @@ session_start();
               
           $sql_csv = "insert into client_contacts(client_contact_first_name,client_contact_last_name,client_contact_email,client_contact_mobile,client_contact_category,client_contact_designation,client_contact_address,city_id,state_id,country_id,client_contact_linkedin,client_contact_facebook,client_contact_twitter,client_company_id,client_contact_status,client_contact_added,assoc_manager_id,assoc_user_id)values('$clientFirstName','$clientLastName','$clientEmail','$clientMobile','$clientCategory','$clientDesignation','$clientAddress','$clientCity','$clientState','$clientCountry','$clientLinkedInId','$clientFacebookId','$clientTwitterId','$clientCompanyId','New','$php_timestamp_date','$userManagerId','$userEmpId')"; 
           $db = mysqli_query($conn,$sql_csv);
-                header("Location:clientlist.php");
+                header("Location:bde_clientlist.php");
             }
             $_SESSION["server-msg"] ="<p class='text-center' style='color:green;'> File Uploaded Successffuly!</p>";
         }else{
@@ -90,7 +90,7 @@ session_start();
         
        function error(){
             fclose($csvFile);
-            header("Location:csv.php"); 
+            header("Location:bde_csv.php"); 
            exit(0);
        }
        
